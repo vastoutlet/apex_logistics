@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "411300721513",
+    "project_id": "apex-logistics-11a31",
+    "storage_bucket": "apex-logistics-11a31.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:411300721513:android:34d8aadf94a6d8bbdc83f8",
+        "android_client_info": {
+          "package_name": "com.apexlogistics.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCanRMgeA0tfli4udyU-IWouIpHqAw6ggk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:411300721513:android:adffb4a5a5164684dc83f8",
+        "android_client_info": {
+          "package_name": "com.apexlogistics.logisticsapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCanRMgeA0tfli4udyU-IWouIpHqAw6ggk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:411300721513:android:18b44f0861f80ef9dc83f8",
+        "android_client_info": {
+          "package_name": "com.example.apex_logistics"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCanRMgeA0tfli4udyU-IWouIpHqAw6ggk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
