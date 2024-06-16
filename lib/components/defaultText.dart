@@ -8,6 +8,7 @@ class DefaultText extends StatelessWidget {
   final TextAlign? align;
   final FontWeight? weight;
   final FontStyle? style;
+  final TextDecoration? decoration;
   const DefaultText(
       {super.key,
       this.text,
@@ -15,7 +16,9 @@ class DefaultText extends StatelessWidget {
       this.size,
       this.align,
       this.weight,
-      this.style});
+      this.style,
+      this.decoration = TextDecoration.none,
+    });
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +33,7 @@ class DefaultText extends StatelessWidget {
         fontWeight: weight,
         fontStyle: style,
         overflow: TextOverflow.clip,
+        decoration: decoration,
       ),
     );
   }

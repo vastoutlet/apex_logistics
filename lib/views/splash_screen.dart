@@ -26,11 +26,11 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
       backgroundColor: Constants.primarydark,
-      splash: SingleChildScrollView(
+      splash: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset("assets/images/logo.png", width: 400),
+            Image.asset("assets/images/logo.png", width: 120),
           ],
         ),
       ),
