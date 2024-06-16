@@ -6,7 +6,6 @@ import 'package:apex_logistics/routes/routes.dart';
 import 'package:apex_logistics/utils/constant.dart';
 import 'package:apex_logistics/views/onboarding/onboardingItems.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -89,7 +88,7 @@ class Onboarding extends StatelessWidget {
                   fontColor: Constants.whiteLight,
                 ),
                 onPressed: () async {
-                  // sharedPreferences.setBool("onboard", true);
+                  sharedPreferences.setBool("onboard", true);
                   Get.offAndToNamed(Routes.signIn);
                 }),
           ),

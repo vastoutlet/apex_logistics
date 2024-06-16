@@ -1,8 +1,9 @@
 import 'package:apex_logistics/components/defaultButton.dart';
-import 'package:apex_logistics/components/defaultForm.dart';
 import 'package:apex_logistics/components/defaultText.dart';
+import 'package:apex_logistics/routes/routes.dart';
 import 'package:apex_logistics/utils/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class SignIn extends StatelessWidget {
@@ -56,7 +57,7 @@ class SignIn extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: DefaultButton(
-                    onPressed: () {},
+                    onPressed: () => Get.toNamed(Routes.verifyOTP),
                     child: const DefaultText(
                       text: "Sign in",
                       fontColor: Constants.whiteNormal,
