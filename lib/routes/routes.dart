@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 class Routes {
   static String splash = "/";
   static String onboarding = "/onboarding";
-  static String signin = "/signin";
+  static String signIn = "/signIn";
 }
 
 final getPages = [
@@ -14,7 +14,7 @@ final getPages = [
     page: () => SplashScreen(),
   ),
   GetPage(
-    name: Routes.signin,
+    name: Routes.signIn,
     page: () => const SignIn(),
   ),
 ];
