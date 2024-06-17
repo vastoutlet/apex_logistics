@@ -5,9 +5,11 @@ import 'package:flutter/widgets.dart';
 
 class DefaultOtpForm extends StatelessWidget {
   final List<TextEditingController>? controller;
+  final Color borderColor;
 
   const DefaultOtpForm({
     this.controller,
+    this.borderColor = Constants.primaryNormal,
     super.key,
   });
 
@@ -39,15 +41,15 @@ class DefaultOtpForm extends StatelessWidget {
                 fillColor: Constants.whiteNormal,
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(
-                    color: Constants.primaryNormal,
+                  borderSide: BorderSide(
+                    color: borderColor,
                     width: 1,
                   ),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(
-                    color: Constants.primaryNormal,
+                  borderSide: BorderSide(
+                    color: borderColor,
                   ),
                 ),
               ),

@@ -11,7 +11,6 @@ class SplashController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     onboarding.value = sharedPreferences.getBool("onboard") ?? false;
   }
@@ -36,7 +35,7 @@ class SplashScreen extends StatelessWidget {
       ),
       // backgroundColor: Constants.backgroundColor,
       splashIconSize: 300.0,
-      nextScreen: controller.onboarding.value ? const SignIn() : Onboarding(),
+      nextScreen: controller.onboarding.value ? SignIn() : Onboarding(),
     );
   }
 }

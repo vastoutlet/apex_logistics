@@ -17,7 +17,7 @@ final getPages = [
   ),
   GetPage(
     name: Routes.signIn,
-    page: () => const SignIn(),
+    page: () => SignIn(),
   ),
   GetPage(
     name: Routes.verifyOTP,
