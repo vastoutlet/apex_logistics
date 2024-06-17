@@ -1,3 +1,4 @@
+import 'package:apex_logistics/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 class DefaultText extends StatelessWidget {
@@ -12,7 +13,7 @@ class DefaultText extends StatelessWidget {
   const DefaultText(
       {super.key,
       this.text,
-      this.fontColor = Colors.black,
+      this.fontColor = Constants.blackDark,
       this.size,
       this.align,
       this.weight,
