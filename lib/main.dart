@@ -20,4 +20,5 @@ void main() async {
     initialRoute: Routes.splash,
     getPages: getPages,
   ));
+
 }
