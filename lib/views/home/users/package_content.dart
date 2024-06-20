@@ -2,9 +2,12 @@ import 'package:apex_logistics/components/defaultButton.dart';
 import 'package:apex_logistics/components/defaultForm.dart';
 import 'package:apex_logistics/components/defaultStepper.dart';
 import 'package:apex_logistics/components/defaultText.dart';
+import 'package:apex_logistics/components/showTripModals.dart';
 import 'package:apex_logistics/utils/constant.dart';
+import 'package:apex_logistics/views/home/users/chooseRider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:get/get.dart';
 
 class PackageContent extends StatefulWidget {
   PackageContent({super.key});
@@ -141,11 +144,15 @@ class _PackageContentState extends State<PackageContent> {
                               size: 15,
                             ),
 
-                          // Add item
+                          // Choose Rider Button
                           Padding(
                             padding: const EdgeInsets.only(bottom: 10, top: 50),
                             child: DefaultButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                navigator!.pop(Get.context!);
+
+                                showTripModals(context, ChooseRider());
+                              },
                               child: const DefaultText(
                                 text: "Choose a rider",
                                 fontColor: Constants.whiteNormal,

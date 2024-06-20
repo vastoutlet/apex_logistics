@@ -4,14 +4,14 @@ import 'package:apex_logistics/components/defaultText.dart';
 import 'package:apex_logistics/utils/constant.dart';
 import 'package:flutter/material.dart';
 
-class ChooseRider extends StatefulWidget {
-  ChooseRider({super.key});
+class RiderArriving extends StatefulWidget {
+  RiderArriving({super.key});
 
   @override
-  State<ChooseRider> createState() => _ChooseRiderState();
+  State<RiderArriving> createState() => _RiderArrivingState();
 }
 
-class _ChooseRiderState extends State<ChooseRider> {
+class _RiderArrivingState extends State<RiderArriving> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -92,7 +92,7 @@ class _ChooseRiderState extends State<ChooseRider> {
                                     width: 60,
                                   ),
                                   title: const DefaultText(
-                                    text: "Motorcycle",
+                                    text: "Bauchi Mall",
                                     size: 18,
                                     weight: FontWeight.bold,
                                   ),
