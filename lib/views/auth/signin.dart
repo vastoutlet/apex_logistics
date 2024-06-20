@@ -108,7 +108,7 @@ class SignIn extends StatelessWidget {
                     child: DefaultButton(
                       borderColor: Constants.primaryNormal,
                       buttonColor: Constants.whiteNormal,
-                      onPressed: () {},
+                      onPressed: () => Get.toNamed(Routes.decideRoute),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
