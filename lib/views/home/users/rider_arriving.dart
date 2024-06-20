@@ -23,7 +23,7 @@ class _RiderArrivingState extends State<RiderArriving> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Confirm address and Stepper
+                // Rider Arriving and Stepper
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                   child: Column(
@@ -31,7 +31,7 @@ class _RiderArrivingState extends State<RiderArriving> {
                     children: [
                       // Stepper Title
                       DefaultText(
-                        text: "Choose a Rider",
+                        text: "Motorcycle Arriving",
                         fontColor: Constants.whiteNormal,
                         size: 20,
                         weight: FontWeight.bold,
@@ -40,7 +40,7 @@ class _RiderArrivingState extends State<RiderArriving> {
                       // Stepper Row
                       Padding(
                         padding: EdgeInsets.only(top: 30),
-                        child: DefaultStepper(step: 3),
+                        child: DefaultStepper(step: 4),
                       ),
                     ],
                   ),
@@ -69,59 +69,57 @@ class _RiderArrivingState extends State<RiderArriving> {
                           const Padding(
                             padding: EdgeInsets.only(bottom: 30),
                             child: DefaultText(
-                              text: "Available Ride",
+                              text: "Ride",
                               size: 20,
                               weight: FontWeight.bold,
                             ),
                           ),
 
                           // Available Rides
-                          Column(
-                            children: List.generate(5, (index) {
-                              return Card(
-                                borderOnForeground: false,
-                                margin: const EdgeInsets.only(bottom: 15),
-                                color: Constants.whiteNormal,
-                                shadowColor: Constants.whiteNormal,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: ListTile(
-                                  leading: Image.asset(
-                                    "assets/images/bike.png",
+                          Card(
+                            borderOnForeground: false,
+                            margin: const EdgeInsets.only(bottom: 15),
+                            color: Constants.whiteNormal,
+                            shadowColor: Constants.whiteNormal,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                child: ClipOval(
+                                  child: Image.asset(
+                                    "assets/images/rider.jpg",
                                     width: 60,
-                                  ),
-                                  title: const DefaultText(
-                                    text: "Bauchi Mall",
-                                    size: 18,
-                                    weight: FontWeight.bold,
-                                  ),
-                                  subtitle: const Row(
-                                    children: [
-                                      DefaultText(
-                                        text: "1 min",
-                                        size: 15,
-                                      ),
-                                      SizedBox(width: 20),
-                                      Icon(
-                                        Icons.map,
-                                        color: Constants.primaryNormal,
-                                      ),
-                                      SizedBox(width: 8),
-                                      DefaultText(
-                                        text: "40 km",
-                                        size: 15,
-                                      ),
-                                    ],
-                                  ),
-                                  trailing: const DefaultText(
-                                    text: "₦ 4,000",
-                                    size: 15,
-                                    weight: FontWeight.bold,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                              );
-                            }),
+                              ),
+                              title: const DefaultText(
+                                text: "TWD 1234 BAUCHI",
+                                size: 18,
+                                weight: FontWeight.bold,
+                              ),
+                              subtitle: const DefaultText(
+                                text: "Arriving in 2min",
+                                size: 15,
+                              ),
+                              trailing: const Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Icon(
+                                    Icons.star_border_rounded,
+                                    color: Constants.primaryNormal,
+                                  ),
+                                  SizedBox(width: 10),
+                                  DefaultText(
+                                    text: "4.8",
+                                    size: 15,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
 
                           // Confirm Ride Button
@@ -129,17 +127,10 @@ class _RiderArrivingState extends State<RiderArriving> {
                             padding: const EdgeInsets.only(bottom: 10, top: 30),
                             child: DefaultButton(
                               onPressed: () {},
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  DefaultText(
-                                    text: "Confirm",
-                                    fontColor: Constants.whiteNormal,
-                                    size: 18,
-                                  ),
-                                  SizedBox(width: 20),
-                                  Icon(Icons.delivery_dining_outlined),
-                                ],
+                              child: const DefaultText(
+                                text: "Cancel request",
+                                fontColor: Constants.whiteNormal,
+                                size: 18,
                               ),
                             ),
                           ),

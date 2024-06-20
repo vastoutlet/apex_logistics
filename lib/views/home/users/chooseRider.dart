@@ -1,8 +1,11 @@
 import 'package:apex_logistics/components/defaultButton.dart';
 import 'package:apex_logistics/components/defaultStepper.dart';
 import 'package:apex_logistics/components/defaultText.dart';
+import 'package:apex_logistics/components/showTripModals.dart';
 import 'package:apex_logistics/utils/constant.dart';
+import 'package:apex_logistics/views/home/users/rider_arriving.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ChooseRider extends StatefulWidget {
   ChooseRider({super.key});
@@ -128,7 +131,11 @@ class _ChooseRiderState extends State<ChooseRider> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 10, top: 30),
                             child: DefaultButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                navigator!.pop(Get.context!);
+
+                                showTripModals(context, RiderArriving());
+                              },
                               child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
