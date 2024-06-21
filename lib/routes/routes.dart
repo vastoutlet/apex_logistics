@@ -3,6 +3,7 @@ import 'package:apex_logistics/views/auth/verify_otp.dart';
 import 'package:apex_logistics/views/home/users/chooseRider.dart';
 import 'package:apex_logistics/views/home/users/confirm_address.dart';
 import 'package:apex_logistics/views/home/users/decide_route.dart';
+import 'package:apex_logistics/views/home/users/my_ride.dart';
 import 'package:apex_logistics/views/home/users/package_content.dart';
 import 'package:apex_logistics/views/home/users/rider_arriving.dart';
 import 'package:apex_logistics/views/splash_screen.dart';
@@ -21,6 +22,7 @@ class Routes {
   static String packageContent = "/packageContent";
   static String chooseRider = "/chooseRider";
   static String riderArriving = "/riderArriving";
+  static String myRide = "/myRide";
 }
 
 final getPages = [
@@ -38,7 +40,7 @@ final getPages = [
   ),
   GetPage(
     name: Routes.decideRoute,
-    page: () => const DecideRoute(),
+    page: () => DecideRoute(),
   ),
   GetPage(
     name: Routes.confirmAddress,
@@ -55,5 +57,9 @@ final getPages = [
   GetPage(
     name: Routes.riderArriving,
     page: () => RiderArriving(),
+  ),
+  GetPage(
+    name: Routes.myRide,
+    page: () => MyRide(),
   ),
 ];

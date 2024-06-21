@@ -1,6 +1,7 @@
-import 'package:apex_logistics/components/defaultAppBar.dart';
+import 'package:apex_logistics/components/defaultAppBar2.dart';
 import 'package:apex_logistics/components/defaultButton.dart';
 import 'package:apex_logistics/components/defaultForm.dart';
+import 'package:apex_logistics/components/defaultSideBar.dart';
 import 'package:apex_logistics/components/defaultText.dart';
 import 'package:apex_logistics/components/showTripModals.dart';
 import 'package:apex_logistics/utils/constant.dart';
@@ -8,13 +9,21 @@ import 'package:apex_logistics/views/home/users/confirm_address.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class DecideRoute extends StatelessWidget {
-  const DecideRoute({super.key});
+class DecideRoute extends StatefulWidget {
+  DecideRoute({super.key});
+
+  @override
+  State<DecideRoute> createState() => _DecideRouteState();
+}
+
+class _DecideRouteState extends State<DecideRoute> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
+      key: scaffoldKey,
       body: SafeArea(
         child: Stack(
           children: [
@@ -33,11 +42,11 @@ class DecideRoute extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // APP BAR
-                  DefaultAppBar(
+                  DefaultAppBar2(
                     backgroundColor: Constants.whiteLight,
                     iconColor: Constants.blackDark,
                     icon: Icons.menu,
-                    onPressed: () {},
+                    onPressed: () => scaffoldKey.currentState!.openDrawer(),
                   ),
 
                   // Current Location
@@ -63,6 +72,7 @@ class DecideRoute extends StatelessWidget {
           ],
         ),
       ),
+      drawer: const DefaultSideBar(),
       bottomSheet: Container(
         width: size.width,
         decoration: const BoxDecoration(
