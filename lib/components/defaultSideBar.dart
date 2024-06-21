@@ -75,7 +75,10 @@ class DefaultSideBar extends StatelessWidget {
                 DefaultDrawerItems(
                   icon: Icons.delivery_dining_rounded,
                   text: "My ride",
-                  onTap: () => Get.toNamed(Routes.myRide),
+                  onTap: () => {
+                    Navigator.pop(context),
+                    Get.toNamed(Routes.myRide),
+                  },
                 ),
                 DefaultDrawerItems(
                   icon: Icons.badge,
