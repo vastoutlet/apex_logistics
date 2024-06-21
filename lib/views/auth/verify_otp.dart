@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:apex_logistics/components/defaultAppBar.dart';
+import 'package:apex_logistics/components/defaultAppBar2.dart';
 import 'package:apex_logistics/components/defaultButton.dart';
 import 'package:apex_logistics/components/defaultOtpForm.dart';
 import 'package:apex_logistics/components/defaultSnackBar.dart';
@@ -92,7 +93,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              DefaultAppBar(
+              DefaultAppBar2(
                 backgroundColor: Constants.whiteLight,
                 iconColor: Constants.blackNormal,
                 icon: Icons.arrow_back,
