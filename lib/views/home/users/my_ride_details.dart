@@ -16,7 +16,7 @@ class MyRideDetail extends StatelessWidget {
 
   final controller = Get.put(MyRideDetailController());
 
-  List<StepperData> stepperData = [
+  final List<StepperData> stepperData = [
     StepperData(
       title: StepperText(
         "Pick up",
@@ -111,10 +111,16 @@ class MyRideDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    // final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Constants.whiteLight,
-      appBar: const DefaultAppBar(),
+      appBar: DefaultAppBar(title: "My Ride", icon: IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            Icons.filter_alt,
+            color: Constants.whiteNormal,
+          ),
+        ),),
       key: scaffoldKey,
       body: SingleChildScrollView(
         child: SafeArea(

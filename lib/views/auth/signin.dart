@@ -1,5 +1,4 @@
 import 'package:apex_logistics/components/defaultButton.dart';
-import 'package:apex_logistics/components/defaultSnackBar.dart';
 import 'package:apex_logistics/components/defaultText.dart';
 import 'package:apex_logistics/routes/routes.dart';
 import 'package:apex_logistics/utils/constant.dart';

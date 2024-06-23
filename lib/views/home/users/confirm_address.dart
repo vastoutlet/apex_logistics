@@ -2,7 +2,6 @@ import 'package:another_stepper/another_stepper.dart';
 import 'package:apex_logistics/components/defaultButton.dart';
 import 'package:apex_logistics/components/defaultStepper.dart';
 import 'package:apex_logistics/components/defaultText.dart';
-import 'package:apex_logistics/routes/routes.dart';
 import 'package:apex_logistics/utils/constant.dart';
 import 'package:apex_logistics/views/home/users/package_content.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,7 @@ import '../../../components/showTripModals.dart';
 class ConfirmAddress extends StatelessWidget {
   ConfirmAddress({super.key});
 
-  List<StepperData> stepperData = [
+  final List<StepperData> stepperData = [
     StepperData(
       title: StepperText(
         "Pick up",

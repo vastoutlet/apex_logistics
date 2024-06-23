@@ -7,8 +7,10 @@ class DefaultForm extends StatelessWidget {
   final TextEditingController? controller;
   final IconData? icon;
   final Color borderColor;
+  final Color focusedBorderColor;
   final Color fillColor;
   final String? hintText;
+  final double borderWidth;
 
   const DefaultForm({
     this.keyboardType = TextInputType.name,
@@ -16,9 +18,11 @@ class DefaultForm extends StatelessWidget {
     this.controller,
     this.icon,
     this.borderColor = Constants.whiteNormal,
+    this.focusedBorderColor = Constants.whiteNormal,
     this.fillColor = Constants.whiteNormal,
     this.hintText,
     super.key,
+    this.borderWidth = 20,
   });
 
   @override
@@ -36,16 +40,16 @@ class DefaultForm extends StatelessWidget {
         fillColor: fillColor,
         filled: true,
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(borderWidth),
           borderSide: BorderSide(
             color: borderColor,
             width: 1,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(borderWidth),
           borderSide: BorderSide(
-            color: borderColor,
+            color: focusedBorderColor,
           ),
         ),
       ),

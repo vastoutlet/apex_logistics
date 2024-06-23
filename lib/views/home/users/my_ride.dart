@@ -1,13 +1,10 @@
 import 'package:apex_logistics/components/defaultAppBar.dart';
 import 'package:apex_logistics/components/defaultRideCards.dart';
-import 'package:apex_logistics/components/defaultText.dart';
 import 'package:apex_logistics/controllers/my_ride_controller.dart';
 import 'package:apex_logistics/utils/constant.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 
 class MyRide extends StatelessWidget {
   MyRide({super.key});
@@ -21,7 +18,16 @@ class MyRide extends StatelessWidget {
     // final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Constants.whiteLight,
-      appBar: const DefaultAppBar(),
+      appBar: DefaultAppBar(
+        title: "My Ride",
+        icon: IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            Icons.filter_alt,
+            color: Constants.whiteNormal,
+          ),
+        ),
+      ),
       key: scaffoldKey,
       body: SingleChildScrollView(
         child: SafeArea(

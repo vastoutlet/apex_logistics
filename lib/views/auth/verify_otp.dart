@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:apex_logistics/components/defaultAppBar.dart';
 import 'package:apex_logistics/components/defaultAppBar2.dart';
 import 'package:apex_logistics/components/defaultButton.dart';
 import 'package:apex_logistics/components/defaultOtpForm.dart';
