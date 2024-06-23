@@ -4,6 +4,7 @@ import 'package:apex_logistics/views/home/users/chooseRider.dart';
 import 'package:apex_logistics/views/home/users/confirm_address.dart';
 import 'package:apex_logistics/views/home/users/decide_route.dart';
 import 'package:apex_logistics/views/home/users/my_ride.dart';
+import 'package:apex_logistics/views/home/users/my_ride_details.dart';
 import 'package:apex_logistics/views/home/users/package_content.dart';
 import 'package:apex_logistics/views/home/users/rider_arriving.dart';
 import 'package:apex_logistics/views/splash_screen.dart';
@@ -23,6 +24,7 @@ class Routes {
   static String chooseRider = "/chooseRider";
   static String riderArriving = "/riderArriving";
   static String myRide = "/myRide";
+  static String myRideDetail = "/myRideDetail";
 }
 
 final getPages = [
@@ -61,5 +63,9 @@ final getPages = [
   GetPage(
     name: Routes.myRide,
     page: () => MyRide(),
+  ),
+  GetPage(
+    name: Routes.myRideDetail,
+    page: () => MyRideDetail(),
   ),
 ];

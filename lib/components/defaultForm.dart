@@ -1,4 +1,3 @@
-import 'package:apex_logistics/components/defaultText.dart';
 import 'package:apex_logistics/utils/constant.dart';
 import 'package:flutter/material.dart';
 
