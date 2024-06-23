@@ -39,7 +39,8 @@ class DefaultSideBar extends StatelessWidget {
                   child: ClipOval(
                     child: Image.asset(
                       "assets/images/rider.jpg",
-                      width: 60,
+                      width: 50,
+                      height: 50,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -70,7 +71,10 @@ class DefaultSideBar extends StatelessWidget {
                 DefaultDrawerItems(
                   icon: Icons.account_balance_wallet,
                   text: "Payment",
-                  onTap: () {},
+                  onTap: () {
+                    Get.close(1);
+                    Get.toNamed(Routes.payment);
+                  },
                 ),
                 DefaultDrawerItems(
                   icon: Icons.delivery_dining_rounded,

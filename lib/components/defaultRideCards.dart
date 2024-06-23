@@ -7,11 +7,13 @@ class DefaultRideCards extends StatelessWidget {
   final String? timePrice;
   final String? deliveryMessage;
   final bool? status;
+  final Function()? onTap;
 
   const DefaultRideCards({
     required this.address,
     required this.timePrice,
     required this.deliveryMessage,
+    this.onTap,
     this.status,
     super.key,
   });
@@ -28,6 +30,7 @@ class DefaultRideCards extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: ListTile(
+        onTap: onTap,
         leading: const CircleAvatar(
           backgroundColor: Constants.whiteDark,
           child: ClipOval(
