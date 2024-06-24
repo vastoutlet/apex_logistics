@@ -1,16 +1,19 @@
 import 'package:apex_logistics/utils/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class DefaultForm extends StatelessWidget {
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
   final TextEditingController? controller;
-  final IconData? icon;
+  final Widget? icon;
   final Color borderColor;
   final Color focusedBorderColor;
   final Color fillColor;
   final String? hintText;
   final double borderWidth;
+  final List<TextInputFormatter>? inputFormatter;
+  final Function(String?)? onSaved;
 
   const DefaultForm({
     this.keyboardType = TextInputType.name,
@@ -23,19 +26,23 @@ class DefaultForm extends StatelessWidget {
     this.hintText,
     super.key,
     this.borderWidth = 20,
+    this.inputFormatter,
+    this.onSaved,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       validator: validator,
+      onSaved: onSaved,
       keyboardType: keyboardType,
+      inputFormatters: inputFormatter,
       controller: controller,
       style: const TextStyle(
         fontSize: 18,
       ),
       decoration: InputDecoration(
-        prefixIcon: Icon(icon),
+        prefixIcon: icon,
         hintText: hintText,
         fillColor: fillColor,
         filled: true,

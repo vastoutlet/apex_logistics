@@ -53,7 +53,7 @@ class _DecideRouteState extends State<DecideRoute> {
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 10),
                     child: DefaultForm(
-                      icon: Icons.my_location,
+                      icon: Icon(Icons.my_location),
                       hintText: "Current Location",
                     ),
                   ),
@@ -62,7 +62,7 @@ class _DecideRouteState extends State<DecideRoute> {
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 10),
                     child: DefaultForm(
-                      icon: Icons.location_on,
+                      icon: Icon(Icons.location_on),
                       hintText: "Destination",
                     ),
                   ),
