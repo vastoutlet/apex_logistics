@@ -2,7 +2,7 @@ import 'package:apex_logistics/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 class DefaultButton extends StatelessWidget {
-  final Function onPressed;
+  final Function()? onPressed;
   final double? textSize;
   final FontWeight? textWeight;
   final Size? size;
@@ -26,9 +26,7 @@ class DefaultButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        onPressed();
-      },
+      onPressed: onPressed,
       style: ButtonStyle(
         backgroundColor: WidgetStateProperty.all(buttonColor),
         foregroundColor: WidgetStateProperty.all(textColor),

@@ -19,7 +19,7 @@ class PackageContent extends StatefulWidget {
 class _PackageContentState extends State<PackageContent> {
   List<DefaultForm> parcelItemList = [
     const DefaultForm(
-      icon: Icons.my_location,
+      icon: Icon(Icons.my_location),
       hintText: "item",
       fillColor: Constants.whiteDark,
     ),
@@ -92,7 +92,7 @@ class _PackageContentState extends State<PackageContent> {
                                   setState(() {
                                     parcelItemList.add(
                                       const DefaultForm(
-                                        icon: Icons.my_location,
+                                        icon: Icon(Icons.my_location),
                                         hintText: "items",
                                         fillColor: Constants.whiteDark,
                                       ),
