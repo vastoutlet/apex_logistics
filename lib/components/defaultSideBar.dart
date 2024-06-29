@@ -46,10 +46,16 @@ class DefaultSideBar extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 30),
-                const DefaultText(
-                  text: "Profile",
-                  size: 18,
-                  weight: FontWeight.bold,
+                GestureDetector(
+                  onTap: () {
+                    Get.close(1);
+                    Get.toNamed(Routes.profile);
+                  },
+                  child: const DefaultText(
+                    text: "Profile",
+                    size: 18,
+                    weight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),

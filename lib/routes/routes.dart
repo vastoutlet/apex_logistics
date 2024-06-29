@@ -1,3 +1,4 @@
+import 'package:apex_logistics/views/auth/profile.dart';
 import 'package:apex_logistics/views/auth/signin.dart';
 import 'package:apex_logistics/views/auth/verify_otp.dart';
 import 'package:apex_logistics/views/home/users/add_card.dart';
@@ -29,6 +30,7 @@ class Routes {
   static String myRideDetail = "/myRideDetail";
   static String payment = "/payment";
   static String addNewCard = "/addNewCard";
+  static String profile = "/profile";
 }
 
 final getPages = [
@@ -79,5 +81,9 @@ final getPages = [
   GetPage(
     name: Routes.addNewCard,
     page: () => AddCard(),
+  ),
+  GetPage(
+    name: Routes.profile,
+    page: () => Profile(),
   ),
 ];
