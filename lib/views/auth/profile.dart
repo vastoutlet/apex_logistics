@@ -1,6 +1,4 @@
-import 'dart:convert';
-
-import 'package:apex_logistics/components/defaultForm.dart';
+import 'package:apex_logistics/components/defaultButton.dart';
 import 'package:apex_logistics/components/defaultText.dart';
 import 'package:apex_logistics/controllers/profile_controller.dart';
 import 'package:apex_logistics/utils/constant.dart';
@@ -18,156 +16,199 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 100.0),
-        child: Column(
-          children: [
-            Obx(() => controller.image.value == ''
-                ? Shimmer.fromColors(
-                    baseColor: Colors.grey.shade300,
-                    highlightColor: Colors.grey.shade100,
-                    child: ClipOval(
-                      child: Image.asset(
-                        "assets/images/rider.jpg",
-                        width: 170,
-                        height: 170,
-                        fit: BoxFit.cover,
-                      ),
-                    ))
-                : Stack(clipBehavior: Clip.none, children: [
-                    Center(
-                      child: controller.selectedPic.value == null
-                          ? ClipOval(
-                              // to be changed to user image (memory)
-                              child: Image.asset(
-                                "assets/images/rider.jpg",
-                                width: 150,
-                                height: 150,
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                          : ClipOval(
-                              child: Image.file(
-                                controller.selectedPic.value!,
-                                width: 150,
-                                height: 150,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                    ),
-                    Positioned(
-                      bottom: 10,
-                      right: 100,
-                      child: GestureDetector(
-                        onTap: () async {
-                          controller.showSelectionCard.value =
-                              !controller.showSelectionCard.value;
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Constants.primaryNormal,
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                          child: SvgPicture.asset(
-                            "assets/images/add_camera.svg",
-                          ),
-                        ),
-                      ),
-                    ),
-                    controller.showSelectionCard.value
-                        ? Positioned(
-                            bottom: -30,
-                            left: 10,
-                            child: Card(
-                              child: Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Column(
-                                  children: [
-                                    InkWell(
-                                      onTap: () async {
-                                        await controller
-                                            .getImage(ImageSource.gallery);
-                                      },
-                                      child: const Row(
-                                        children: [
-                                          Icon(Icons.image, size: 30),
-                                          SizedBox(width: 10.0),
-                                          DefaultText(text: "Gallery"),
-                                        ],
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                  minHeight: constraints.minHeight,
+                  minWidth: constraints.minWidth),
+              child: IntrinsicHeight(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 100.0),
+                  child: Column(
+                    children: [
+                      Obx(() => controller.image.value == ''
+                          ? Shimmer.fromColors(
+                              baseColor: Colors.grey.shade300,
+                              highlightColor: Colors.grey.shade100,
+                              child: ClipOval(
+                                child: Image.asset(
+                                  "assets/images/rider.jpg",
+                                  width: 170,
+                                  height: 170,
+                                  fit: BoxFit.cover,
+                                ),
+                              ))
+                          : Stack(clipBehavior: Clip.none, children: [
+                              Center(
+                                child: controller.selectedPic.value == null
+                                    ? ClipOval(
+                                        // to be changed to user image (memory)
+                                        child: Image.asset(
+                                          "assets/images/rider.jpg",
+                                          width: 150,
+                                          height: 150,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      )
+                                    : ClipOval(
+                                        child: Image.file(
+                                          controller.selectedPic.value!,
+                                          width: 150,
+                                          height: 150,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
+                              ),
+                              Positioned(
+                                bottom: 10,
+                                right: 100,
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    controller.showSelectionCard.value =
+                                        !controller.showSelectionCard.value;
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      color: Constants.primaryNormal,
+                                      borderRadius: BorderRadius.circular(100),
                                     ),
-                                    const SizedBox(height: 20.0),
-                                    InkWell(
-                                      onTap: () async {
-                                        await controller
-                                            .getImage(ImageSource.camera);
-                                      },
-                                      child: const Row(
-                                        children: [
-                                          Icon(Icons.camera_alt, size: 30),
-                                          SizedBox(width: 10.0),
-                                          DefaultText(text: "Camera"),
-                                        ],
-                                      ),
+                                    child: SvgPicture.asset(
+                                      "assets/images/add_camera.svg",
                                     ),
-                                  ],
+                                  ),
                                 ),
                               ),
-                            ))
-                        : Container()
-                  ])),
-            const SizedBox(height: 20.0),
-            DefaultText(
-              text: controller.profileSnapshot.value.name,
-              size: 18.0,
-              weight: FontWeight.bold,
+                              controller.showSelectionCard.value
+                                  ? Positioned(
+                                      bottom: -30,
+                                      left: 10,
+                                      child: Card(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(20.0),
+                                          child: Column(
+                                            children: [
+                                              InkWell(
+                                                onTap: () async {
+                                                  await controller.getImage(
+                                                      context,
+                                                      ImageSource.gallery);
+                                                },
+                                                child: const Row(
+                                                  children: [
+                                                    Icon(Icons.image, size: 30),
+                                                    SizedBox(width: 10.0),
+                                                    DefaultText(
+                                                        text: "Gallery"),
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(height: 20.0),
+                                              InkWell(
+                                                onTap: () async {
+                                                  await controller.getImage(
+                                                      context,
+                                                      ImageSource.camera);
+                                                },
+                                                child: const Row(
+                                                  children: [
+                                                    Icon(Icons.camera_alt,
+                                                        size: 30),
+                                                    SizedBox(width: 10.0),
+                                                    DefaultText(text: "Camera"),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ))
+                                  : Container()
+                            ])),
+                      const SizedBox(height: 20.0),
+                      DefaultText(
+                        text: controller.profileSnapshot.value.name,
+                        size: 22.0,
+                        weight: FontWeight.bold,
+                      ),
+                      const SizedBox(height: 40.0),
+                      Form(
+                          child: Column(
+                        children: [
+                          Obx(() => ProfileTextField(
+                                controller: controller.name,
+                                labelText: "Full Name",
+                                readonly: controller.nameReadOnly.value,
+                                borderColor: controller.nameBorderColor.value,
+                                suffixIcon: SuffixIcon(
+                                    toggleEdit: controller.nameToggleEdit),
+                              )),
+                          const SizedBox(height: 20.0),
+                          Obx(() => ProfileTextField(
+                                controller: controller.email,
+                                labelText: "Email Address",
+                                readonly: controller.emailReadOnly.value,
+                                borderColor: controller.emailBorderColor.value,
+                                suffixIcon: SuffixIcon(
+                                    toggleEdit: controller.emailToggleEdit),
+                              )),
+                          const SizedBox(height: 20.0),
+                          ProfileTextField(
+                            controller: controller.phone,
+                            labelText: "Phone",
+                            readonly: true,
+                          ),
+                          const SizedBox(height: 40.0),
+                          Obx(() => controller.editable.value
+                              ? DefaultButton(
+                                  onPressed: () {
+                                    controller.isClicked.value = true;
+                                  },
+                                  child:
+                                      controller.btnLoading("Update Profile"))
+                              : const SizedBox.shrink())
+                        ],
+                      ))
+                    ],
+                  ),
+                ),
+              ),
             ),
-            const SizedBox(height: 40.0),
-            Form(
-                child: Column(
-              children: [
-                ProfileTextField(
-                  controller: controller.name,
-                  labelText: "Full Name",
-                ),
-                const SizedBox(height: 20.0),
-                ProfileTextField(
-                  controller: controller.email,
-                  labelText: "Email Address",
-                ),
-                const SizedBox(height: 20.0),
-                ProfileTextField(
-                  controller: controller.phone,
-                  labelText: "Phone",
-                ),
-              ],
-            ))
-          ],
-        ),
+          );
+        },
       ),
     );
   }
 }
 
 class ProfileTextField extends StatelessWidget {
+  final TextEditingController controller;
+  final String? labelText;
+  final bool readonly;
+  final VoidCallback? toggleEdit;
+  final Widget? suffixIcon;
+  final Color borderColor;
+
   const ProfileTextField(
       {super.key,
       required this.controller,
       this.labelText,
-      this.readonly = false});
-
-  final TextEditingController controller;
-  final String? labelText;
-  final bool readonly;
+      this.readonly = false,
+      this.toggleEdit,
+      this.suffixIcon,
+      this.borderColor = Constants.whiteNormal});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: Constants.whiteNormal),
+        border: Border.all(color: borderColor),
         borderRadius: BorderRadius.circular(20),
       ),
       child: TextFormField(
@@ -182,10 +223,7 @@ class ProfileTextField extends StatelessWidget {
             text: labelText,
             weight: FontWeight.bold,
           ),
-          suffixIcon: const Icon(
-            Icons.edit,
-            color: Constants.primaryNormal,
-          ),
+          suffixIcon: suffixIcon,
           fillColor: Constants.whiteNormal,
           filled: true,
           focusedBorder: UnderlineInputBorder(
@@ -195,6 +233,26 @@ class ProfileTextField extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               borderSide: BorderSide.none),
         ),
+      ),
+    );
+  }
+}
+
+class SuffixIcon extends StatelessWidget {
+  const SuffixIcon({
+    super.key,
+    required this.toggleEdit,
+  });
+
+  final VoidCallback? toggleEdit;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: toggleEdit,
+      child: const Icon(
+        Icons.edit,
+        color: Constants.primaryNormal,
       ),
     );
   }
