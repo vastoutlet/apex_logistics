@@ -1,0 +1,53 @@
+Container(
+                            width: 100,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Constants.whiteDark,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Stack(
+                              children: [
+                                const Center(
+                                    child: DefaultText(
+                                  text: "Go Online",
+                                  fontColor: Constants.whiteLight,
+                                  weight: FontWeight.bold,
+                                  size: 16,
+                                )),
+                                Obx(() => Positioned(
+                                      left: controller.leftPosition.value,
+                                      child: Draggable(
+                                        axis: Axis.horizontal,
+                                        feedback: _buildButton(),
+                                        childWhenDragging: Container(),
+                                        onDragEnd: (details) {
+                                          double newPosition = details.offset.dx - 50;
+                                          if (newPosition < 0) {
+                                            newPosition = 0;
+                                          } else if (newPosition > (300 - 100)) {
+                                            newPosition = size.width - 100;
+                                          }
+                                          controller.leftPosition.value = newPosition;
+                                        },
+                                        child: _buildButton(),
+                                      ),
+                                    )),
+                              ],
+                            ),
+                          )
+
+
+
+Widget _buildButton() {
+  return Container(
+    width: 50,
+    height: 50,
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(50),
+    ),
+    child: const Center(
+      child: Icon(Icons.arrow_forward_ios, color: Constants.whiteDark),
+    ),
+  );
+}
