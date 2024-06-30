@@ -1,13 +1,16 @@
 import 'package:apex_logistics/components/defaultButton.dart';
 import 'package:apex_logistics/components/defaultDrawerItems.dart';
 import 'package:apex_logistics/components/defaultText.dart';
+import 'package:apex_logistics/controllers/decide_route_controller.dart';
 import 'package:apex_logistics/routes/routes.dart';
 import 'package:apex_logistics/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DefaultSideBar extends StatelessWidget {
-  const DefaultSideBar({super.key});
+  DefaultSideBar({super.key});
+
+  final controller = Get.put(DecideRouteController());
 
   @override
   Widget build(BuildContext context) {
@@ -120,21 +123,37 @@ class DefaultSideBar extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  DefaultButton(
-                    onPressed: () {},
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        DefaultText(
-                          text: "Become a Rider",
-                          fontColor: Constants.whiteNormal,
-                          size: 18,
+                  controller.isDriver.value
+                      ? DefaultButton(
+                          onPressed: () {},
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              DefaultText(
+                                text: "Become a User",
+                                fontColor: Constants.whiteNormal,
+                                size: 18,
+                              ),
+                              SizedBox(width: 20),
+                              Icon(Icons.person),
+                            ],
+                          ),
+                        )
+                      : DefaultButton(
+                          onPressed: () {},
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              DefaultText(
+                                text: "Become a Rider",
+                                fontColor: Constants.whiteNormal,
+                                size: 18,
+                              ),
+                              SizedBox(width: 10),
+                              Icon(Icons.delivery_dining_outlined, size: 20),
+                            ],
+                          ),
                         ),
-                        SizedBox(width: 20),
-                        Icon(Icons.delivery_dining_outlined),
-                      ],
-                    ),
-                  ),
                 ],
               ),
             ),

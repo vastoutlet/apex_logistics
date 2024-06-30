@@ -100,7 +100,7 @@ class DecideRoute extends StatelessWidget {
               )
             ],
           ),
-          drawer: const DefaultSideBar(),
+          drawer: DefaultSideBar(),
           bottomSheet: controller.onlineCard.value
               ? const SizedBox.shrink()
               : Container(
