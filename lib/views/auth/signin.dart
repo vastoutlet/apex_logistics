@@ -1,5 +1,6 @@
 import 'package:apex_logistics/components/defaultButton.dart';
 import 'package:apex_logistics/components/defaultText.dart';
+import 'package:apex_logistics/main.dart';
 import 'package:apex_logistics/routes/routes.dart';
 import 'package:apex_logistics/utils/constant.dart';
 import 'package:flutter/material.dart';
@@ -107,7 +108,11 @@ class SignIn extends StatelessWidget {
                     child: DefaultButton(
                       borderColor: Constants.primaryNormal,
                       buttonColor: Constants.whiteNormal,
-                      onPressed: () => Get.toNamed(Routes.decideRoute),
+                      onPressed: () {
+                        // store user type in cache
+                        sharedPreferences.setBool("driver", true);
+                        Get.toNamed(Routes.decideRoute);
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

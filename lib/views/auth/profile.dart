@@ -1,6 +1,7 @@
 import 'package:apex_logistics/components/defaultButton.dart';
 import 'package:apex_logistics/components/defaultText.dart';
 import 'package:apex_logistics/controllers/profile_controller.dart';
+import 'package:apex_logistics/main.dart';
 import 'package:apex_logistics/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -36,8 +37,8 @@ class Profile extends StatelessWidget {
                               child: ClipOval(
                                 child: Image.asset(
                                   "assets/images/rider.jpg",
-                                  width: 170,
-                                  height: 170,
+                                  width: 100,
+                                  height: 100,
                                   fit: BoxFit.cover,
                                 ),
                               ))
@@ -48,44 +49,48 @@ class Profile extends StatelessWidget {
                                         // to be changed to user image (memory)
                                         child: Image.asset(
                                           "assets/images/rider.jpg",
-                                          width: 150,
-                                          height: 150,
+                                          width: 120,
+                                          height: 120,
                                           fit: BoxFit.cover,
                                         ),
                                       )
                                     : ClipOval(
                                         child: Image.file(
                                           controller.selectedPic.value!,
-                                          width: 150,
-                                          height: 150,
+                                          width: 120,
+                                          height: 120,
                                           fit: BoxFit.cover,
                                         ),
                                       ),
                               ),
                               Positioned(
-                                bottom: 10,
-                                right: 100,
+                                bottom: 0,
+                                right: 120,
                                 child: GestureDetector(
                                   onTap: () async {
                                     controller.showSelectionCard.value =
                                         !controller.showSelectionCard.value;
                                   },
                                   child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8.0),
-                                    width: 50,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      color: Constants.primaryNormal,
-                                      borderRadius: BorderRadius.circular(100),
-                                    ),
-                                    child: SvgPicture.asset(
-                                      "assets/images/add_camera.svg",
-                                    ),
-                                  ),
+                                      padding: const EdgeInsets.all(8.0),
+                                      decoration: BoxDecoration(
+                                        color: Constants.primaryNormal,
+                                        borderRadius: BorderRadius.circular(50),
+                                      ),
+                                      child: const Icon(
+                                        Icons.add_a_photo_outlined,
+                                        size: 20,
+                                        color: Colors.white,
+                                      )
+                                      // SvgPicture.asset(
+                                      //   "assets/images/add_camera.svg",
+                                      //   height: 100,
+                                      // ),
+                                      ),
                                 ),
                               ),
-                              controller.showSelectionCard.value
+                              controller.showSelectionCard
+                                      .value //to change profile picture
                                   ? Positioned(
                                       bottom: -30,
                                       left: 10,
@@ -137,6 +142,17 @@ class Profile extends StatelessWidget {
                         size: 22.0,
                         weight: FontWeight.bold,
                       ),
+                      const SizedBox(height: 15.0),
+                      sharedPreferences.getBool("driver")!
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                buildDriverStatistics("2.75%", "Rating"),
+                                buildDriverStatistics("50", "Accepted"),
+                                buildDriverStatistics("10", "Cancelled"),
+                              ],
+                            )
+                          : const SizedBox.shrink(),
                       const SizedBox(height: 40.0),
                       Form(
                           child: Column(
@@ -185,6 +201,57 @@ class Profile extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget buildDriverStatistics(String value, String label) {
+  return Row(
+    children: [
+      Container(
+          padding: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+              color: Constants.whiteDark,
+              borderRadius: BorderRadius.circular(50)),
+          child: const Icon(Icons.star_rate_outlined, size: 20)),
+      const SizedBox(width: 10),
+      Column(
+        children: [
+          DefaultText(
+            text: value,
+            weight: FontWeight.bold,
+            size: 16.0,
+          ),
+          const SizedBox(height: 5),
+          DefaultText(
+            text: label,
+            fontColor: Colors.grey,
+            size: 16.0,
+          ),
+        ],
+      )
+      // Row(
+      //   children: [
+      //     Container(
+      //         padding: const EdgeInsets.all(5),
+      //         decoration: BoxDecoration(
+      //             color: Constants.whiteDark,
+      //             borderRadius: BorderRadius.circular(50)),
+      //         child: const Icon(Icons.star_rate_outlined, size: 20)),
+      //     const SizedBox(width: 10.0),
+      //     DefaultText(
+      //       text: value,
+      //       weight: FontWeight.bold,
+      //       size: 16.0,
+      //     )
+      //   ],
+      // ),
+      // const SizedBox(height: 4),
+      // DefaultText(
+      //   text: label,
+      //   fontColor: Colors.grey,
+      //   size: 16.0,
+      // )
+    ],
+  );
 }
 
 class ProfileTextField extends StatelessWidget {
