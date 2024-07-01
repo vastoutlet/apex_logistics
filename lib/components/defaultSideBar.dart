@@ -1,13 +1,17 @@
 import 'package:apex_logistics/components/defaultButton.dart';
 import 'package:apex_logistics/components/defaultDrawerItems.dart';
 import 'package:apex_logistics/components/defaultText.dart';
+import 'package:apex_logistics/controllers/decide_route_controller.dart';
+import 'package:apex_logistics/main.dart';
 import 'package:apex_logistics/routes/routes.dart';
 import 'package:apex_logistics/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DefaultSideBar extends StatelessWidget {
-  const DefaultSideBar({super.key});
+  DefaultSideBar({super.key});
+
+  final controller = Get.put(DecideRouteController());
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +50,16 @@ class DefaultSideBar extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 30),
-                const DefaultText(
-                  text: "Profile",
-                  size: 18,
-                  weight: FontWeight.bold,
+                GestureDetector(
+                  onTap: () {
+                    Get.close(1);
+                    Get.toNamed(Routes.profile);
+                  },
+                  child: const DefaultText(
+                    text: "Profile",
+                    size: 18,
+                    weight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
@@ -84,6 +94,17 @@ class DefaultSideBar extends StatelessWidget {
                     Get.toNamed(Routes.myRide),
                   },
                 ),
+                sharedPreferences.getBool("driver")!
+                    ? DefaultDrawerItems(
+                        icon: Icons.delivery_dining_rounded,
+                        text: "Requests",
+                        onTap: () => {
+                          Get.close(1),
+                          // iDK sha, i believe there should be or linked with myRide route(above)
+                          // Get.toNamed(Routes.myRide),
+                        },
+                      )
+                    : const SizedBox.shrink(),
                 DefaultDrawerItems(
                   icon: Icons.badge,
                   text: "About Us",
@@ -96,7 +117,7 @@ class DefaultSideBar extends StatelessWidget {
           // SIDEBAR: Bottom Section
           Container(
             width: size.width,
-            height: size.height * 0.48,
+            height: size.height * 0.38,
             padding: const EdgeInsets.only(
               top: 100,
               left: 20,
@@ -114,21 +135,37 @@ class DefaultSideBar extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  DefaultButton(
-                    onPressed: () {},
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        DefaultText(
-                          text: "Become a Rider",
-                          fontColor: Constants.whiteNormal,
-                          size: 18,
+                  controller.isDriver.value
+                      ? DefaultButton(
+                          onPressed: () {},
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              DefaultText(
+                                text: "Become a User",
+                                fontColor: Constants.whiteNormal,
+                                size: 18,
+                              ),
+                              SizedBox(width: 20),
+                              Icon(Icons.person),
+                            ],
+                          ),
+                        )
+                      : DefaultButton(
+                          onPressed: () {},
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              DefaultText(
+                                text: "Become a Rider",
+                                fontColor: Constants.whiteNormal,
+                                size: 18,
+                              ),
+                              SizedBox(width: 10),
+                              Icon(Icons.delivery_dining_outlined, size: 20),
+                            ],
+                          ),
                         ),
-                        SizedBox(width: 20),
-                        Icon(Icons.delivery_dining_outlined),
-                      ],
-                    ),
-                  ),
                 ],
               ),
             ),
