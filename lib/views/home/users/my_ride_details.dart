@@ -114,13 +114,16 @@ class MyRideDetail extends StatelessWidget {
     // final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Constants.whiteLight,
-      appBar: DefaultAppBar(title: "My Ride", icon: IconButton(
+      appBar: DefaultAppBar(
+        title: "My Ride",
+        icon: IconButton(
           onPressed: () {},
           icon: const Icon(
             Icons.filter_alt,
             color: Constants.whiteNormal,
           ),
-        ),),
+        ),
+      ),
       key: scaffoldKey,
       body: SingleChildScrollView(
         child: SafeArea(

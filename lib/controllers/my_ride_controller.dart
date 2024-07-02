@@ -2,12 +2,8 @@ import 'package:apex_logistics/models/my_ride_detail_model.dart';
 import 'package:get/get.dart';
 
 class MyRideController extends GetxController {
-  List<String> deliveryMessage = [
-    "Delivered",
-    "Ongoing Ride",
-    "Cancelled Ride",
-    "Pending Ride"
-  ];
+  var deliveryMessage =
+      <String>["Delivered", "Ongoing", "Cancelled", "Pending"].obs;
 
   MyRideDetailModel myRideDetailModel = MyRideDetailModel(
     id: "70382344444",

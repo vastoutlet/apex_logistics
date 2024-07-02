@@ -102,8 +102,10 @@ class DecideRoute extends StatelessWidget {
               ],
             ),
             drawer: DefaultSideBar(),
-            bottomSheet: controller.onlineCard.value
-                ? const SizedBox.shrink()
+            bottomSheet: controller.isOnline.value
+                ? controller.startRideModal.value
+                    ? controller.buildStartRide(context)
+                    : const SizedBox.shrink()
                 : Container(
                     width: size.width,
                     decoration: const BoxDecoration(
@@ -166,6 +168,7 @@ class DecideRoute extends StatelessWidget {
                                     const Duration(seconds: 2),
                                     () {
                                       controller.onlineCard.value = true;
+                                      controller.isOnline.value = true;
                                     },
                                   );
                                 },
