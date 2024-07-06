@@ -89,22 +89,34 @@ class DecideRouteController extends GetxController {
         ),
       ),
       StepperData(
-        title: StepperText(
-          "Drop Location",
-          textStyle: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            fontFamily: "RobotoRegular",
-          ),
+        title: const DefaultText(
+          text: "Drop Location",
+          size: 16.0,
+          weight: FontWeight.bold,
         ),
-        subtitle: StepperText(
-          "Wada Street, Bauchi North",
-          textStyle: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.normal,
-            fontFamily: "RobotoRegular",
-          ),
-        ),
+
+        // StepperText(
+        //   "Drop Location",
+        //   textStyle: const TextStyle(
+        //     fontSize: 16,
+        //     fontWeight: FontWeight.bold,
+        //     fontFamily: "RobotoRegular",
+        //   ),
+        // ),
+        subtitle: const Row(children: [
+          DefaultText(text: "Wada Street, Bauchi North", size: 14.0),
+          SizedBox(width: 20.0),
+          DefaultText(text: "Text", size: 14.0),
+        ]),
+
+        // StepperText(
+        //   "",
+        //   textStyle: const TextStyle(
+        //     fontSize: 14,
+        //     fontWeight: FontWeight.normal,
+        //     fontFamily: "RobotoRegular",
+        //   ),
+        // ),
         iconWidget: Container(
           decoration: const BoxDecoration(
             color: Constants.primaryNormal,

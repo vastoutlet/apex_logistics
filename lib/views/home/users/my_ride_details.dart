@@ -1,3 +1,4 @@
+import 'package:another_stepper/another_stepper.dart';
 import 'package:another_stepper/dto/stepper_data.dart';
 import 'package:apex_logistics/components/defaultAppBar.dart';
 import 'package:apex_logistics/components/defaultText.dart';
@@ -18,21 +19,14 @@ class MyRideDetail extends StatelessWidget {
 
   final List<StepperData> stepperData = [
     StepperData(
-      title: StepperText(
-        "Pick up",
-        textStyle: const TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          fontFamily: "RobotoRegular",
-        ),
+      title: const DefaultText(
+        text: "Pick Up",
+        size: 18.0,
+        weight: FontWeight.bold,
       ),
-      subtitle: StepperText(
-        "ssss",
-        textStyle: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.normal,
-          fontFamily: "RobotoRegular",
-        ),
+      subtitle: const DefaultText(
+        text: "6, Tudun Wada, Street, Bauchi",
+        size: 14.0,
       ),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -48,21 +42,19 @@ class MyRideDetail extends StatelessWidget {
       ),
     ),
     StepperData(
-      title: StepperText(
-        "Current Location",
-        textStyle: const TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          fontFamily: "RobotoRegular",
-        ),
+      title: const DefaultText(
+        text: "Current Location",
+        size: 18.0,
+        weight: FontWeight.bold,
       ),
-      subtitle: StepperText(
-        "Wada Street, Bauchi North",
-        textStyle: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.normal,
-          fontFamily: "RobotoRegular",
-        ),
+      subtitle: const Column(
+        children: [
+          DefaultText(
+            text: "WadaStreet, Bauchi North",
+            size: 14.0,
+          ),
+          MapFrame()
+        ],
       ),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -78,21 +70,14 @@ class MyRideDetail extends StatelessWidget {
       ),
     ),
     StepperData(
-      title: StepperText(
-        "Destination",
-        textStyle: const TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          fontFamily: "RobotoRegular",
-        ),
+      title: const DefaultText(
+        text: "Destination",
+        size: 18.0,
+        weight: FontWeight.bold,
       ),
-      subtitle: StepperText(
-        "Wada Street, Bauchi North",
-        textStyle: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.normal,
-          fontFamily: "RobotoRegular",
-        ),
+      subtitle: const DefaultText(
+        text: "Wada Street, Bauchi North",
+        size: 14.0,
       ),
       iconWidget: Container(
         padding: const EdgeInsets.all(8),
@@ -185,25 +170,29 @@ class MyRideDetail extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 20.0),
-                controller.timelineItems.isEmpty
+                controller.stepperItem.isEmpty
                     ? const Center(
                         child: DefaultText(
                         text: "Route Loading...",
                         size: 18.0,
                       ))
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: controller.timelineItems.length,
-                        itemBuilder: (context, index) {
-                          final item = controller.timelineItems[index];
-                          return CustomTimeline(
-                            item: item,
-                            isFirst: index == 0,
-                            isLast:
-                                index == controller.timelineItems.length - 1,
-                            parcelIndicator: item.parcelIndicator,
-                          );
-                        }),
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          AnotherStepper(
+                            stepperList: controller.stepperItem,
+                            stepperDirection: Axis.vertical,
+                            iconWidth: 30,
+                            iconHeight: 30,
+                            activeBarColor: Constants.primaryNormal,
+                            inActiveBarColor: Colors.grey,
+                            inverted: false,
+                            verticalGap: 60, //20
+                            activeIndex: 1,
+                            barThickness: 1,
+                          ),
+                        ],
+                      ),
                 const SizedBox(height: 20.0),
                 const DefaultText(
                   text: "Payment",
