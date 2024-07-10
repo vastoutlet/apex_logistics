@@ -3,6 +3,7 @@ import 'package:apex_logistics/components/defaultForm.dart';
 import 'package:apex_logistics/components/defaultSnackBar.dart';
 import 'package:apex_logistics/components/defaultText.dart';
 import 'package:apex_logistics/controllers/sign_in_controller.dart';
+import 'package:apex_logistics/main.dart';
 import 'package:apex_logistics/routes/routes.dart';
 import 'package:apex_logistics/utils/constant.dart';
 import 'package:flutter/material.dart';
@@ -119,8 +120,10 @@ class _SignInState extends State<SignIn> {
                       child: DefaultButton(
                         borderColor: Constants.primaryNormal,
                         buttonColor: Constants.whiteNormal,
-                        onPressed: () =>
-                            signInController.signInWithGoogle(false),
+                        onPressed: () {
+sharedPreferences.setBool("driver", false);
+                            signInController.signInWithGoogle(false);
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

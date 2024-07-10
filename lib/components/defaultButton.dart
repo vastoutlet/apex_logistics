@@ -6,6 +6,7 @@ class DefaultButton extends StatelessWidget {
   final double? textSize;
   final FontWeight? textWeight;
   final Size? size;
+  double buttonHeight;
   Color? buttonColor;
   Color? borderColor;
   Color? textColor;
@@ -20,6 +21,7 @@ class DefaultButton extends StatelessWidget {
     this.buttonColor = Constants.primaryNormal,
     this.borderColor,
     this.textColor = Constants.whiteLight,
+    this.buttonHeight = 50,
     this.child,
   });
 
@@ -31,9 +33,9 @@ class DefaultButton extends StatelessWidget {
         backgroundColor: WidgetStateProperty.all(buttonColor),
         foregroundColor: WidgetStateProperty.all(textColor),
         minimumSize: WidgetStateProperty.all(
-          const Size(
+          Size(
             double.infinity,
-            50,
+            buttonHeight,
           ),
         ),
         side: WidgetStateProperty.resolveWith<BorderSide?>(

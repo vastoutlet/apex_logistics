@@ -4,8 +4,10 @@ import 'package:apex_logistics/components/defaultForm.dart';
 import 'package:apex_logistics/components/defaultSideBar.dart';
 import 'package:apex_logistics/components/defaultText.dart';
 import 'package:apex_logistics/components/showTripModals.dart';
+import 'package:apex_logistics/controllers/decide_route_controller.dart';
 import 'package:apex_logistics/utils/constant.dart';
 import 'package:apex_logistics/views/home/users/confirm_address.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
@@ -13,11 +15,6 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 class DecideRoute extends StatefulWidget {
   const DecideRoute({super.key});
 
-  @override
-  State<DecideRoute> createState() => _DecideRouteState();
-}
-
-class _DecideRouteState extends State<DecideRoute> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   DateTime timeBackPressed = DateTime.now();
 

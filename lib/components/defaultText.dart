@@ -10,16 +10,16 @@ class DefaultText extends StatelessWidget {
   final FontWeight? weight;
   final FontStyle? style;
   final TextDecoration? decoration;
-  const DefaultText(
-      {super.key,
-      this.text,
-      this.fontColor = Constants.blackDark,
-      this.size,
-      this.align,
-      this.weight,
-      this.style,
-      this.decoration = TextDecoration.none,
-    });
+  const DefaultText({
+    super.key,
+    this.text,
+    this.fontColor = Constants.blackDark,
+    this.size,
+    this.align,
+    this.weight,
+    this.style,
+    this.decoration = TextDecoration.none,
+  });
 
   @override
   Widget build(BuildContext context) {
