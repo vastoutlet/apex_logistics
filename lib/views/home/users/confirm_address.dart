@@ -6,7 +6,6 @@ import 'package:apex_logistics/utils/constant.dart';
 import 'package:apex_logistics/views/home/users/package_content.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../components/showTripModals.dart';
 
 class ConfirmAddress extends StatelessWidget {

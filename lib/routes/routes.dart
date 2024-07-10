@@ -1,5 +1,6 @@
 import 'package:apex_logistics/views/auth/profile.dart';
 import 'package:apex_logistics/views/auth/signin.dart';
+import 'package:apex_logistics/views/auth/link_authentication.dart';
 import 'package:apex_logistics/views/auth/verify_otp.dart';
 import 'package:apex_logistics/views/home/users/add_card.dart';
 import 'package:apex_logistics/views/home/users/chooseRider.dart';
@@ -31,6 +32,7 @@ class Routes {
   static String payment = "/payment";
   static String addNewCard = "/addNewCard";
   static String profile = "/profile";
+  static String linkAuthentication = "/linkAuthentication";
 }
 
 final getPages = [
@@ -43,12 +45,21 @@ final getPages = [
     page: () => SignIn(),
   ),
   GetPage(
+    name: Routes.linkAuthentication,
+    page: () => LinkAuthentication(
+      imagePath: Get.arguments['imagePath'],
+      heading: Get.arguments['heading'],
+      subtitle: Get.arguments['subtitle'],
+      method: Get.arguments['method'],
+    ),
+  ),
+  GetPage(
     name: Routes.verifyOTP,
     page: () => const VerifyOTP(),
   ),
   GetPage(
     name: Routes.decideRoute,
-    page: () => DecideRoute(),
+    page: () => const DecideRoute(),
   ),
   GetPage(
     name: Routes.confirmAddress,
@@ -76,7 +87,7 @@ final getPages = [
   ),
   GetPage(
     name: Routes.payment,
-    page: () => PaymentMethod(),
+    page: () => const PaymentMethod(),
   ),
   GetPage(
     name: Routes.addNewCard,

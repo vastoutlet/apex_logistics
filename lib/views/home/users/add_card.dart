@@ -45,7 +45,7 @@ class AddCard extends StatelessWidget {
                         onSaved: (value) {
                           print("value is $value");
                           controller.paymentCard.value.number =
-                              CardUtils.getCleanedNumber(value!);
+                              CardUtils.getCleanedNumber(value!); 
                         })),
                     const SizedBox(height: 20.0),
                     Row(
