@@ -94,6 +94,7 @@ class _SignInState extends State<SignIn> {
                       child: DefaultButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
+                            sharedPreferences.setBool("driver", false);
                             signInController.signInWithPhone();
                           }
                         },
@@ -121,8 +122,8 @@ class _SignInState extends State<SignIn> {
                         borderColor: Constants.primaryNormal,
                         buttonColor: Constants.whiteNormal,
                         onPressed: () {
-sharedPreferences.setBool("driver", false);
-                            signInController.signInWithGoogle(false);
+                          sharedPreferences.setBool("driver", false);
+                          signInController.signInWithGoogle(false);
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

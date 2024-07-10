@@ -107,7 +107,7 @@ class CardUtils {
     if (img.isNotEmpty) {
       widget = Image.asset(
         "assets/images/$img",
-        width: 40.0,
+        width: 40,
       );
     } else {
       widget = icon;
