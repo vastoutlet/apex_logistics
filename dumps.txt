@@ -51,3 +51,163 @@ Widget _buildButton() {
     ),
   );
 }
+
+
+//timeline
+  var timelineItems = <TimelineItem>[].obs;
+
+ addTimelineItem(TimelineItem item) {
+    timelineItems.add(item);
+  }
+
+  addTimelineItem(TimelineItem(
+          title: "Pick Up", subtitle: DefaultText(text: data["address"])));
+      addTimelineItem(
+        TimelineItem(
+          title: "Current Location",
+          subtitle: const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              DefaultText(
+                text: "Wada Street, Bauchi North",
+              ),
+              SizedBox(height: 10.0),
+              MapFrame()
+            ],
+          ),
+        ),
+      );
+      addTimelineItem(
+        TimelineItem(
+            title: "Destination",
+            subtitle: const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DefaultText(
+                  text: "Wada Street, Bauchi North",
+                ),
+                DefaultText(
+                  text: "Delivered",
+                  fontColor: Constants.primaryNormal,
+                ),
+              ],
+            )),
+      );
+    
+    class CustomTimeline extends StatelessWidget {
+  final TimelineItem item;
+  final bool isFirst;
+  final bool isLast;
+  final Color parcelIndicator;
+
+  const CustomTimeline({
+    super.key,
+    required this.item,
+    this.isFirst = false,
+    this.isLast = false,
+    this.parcelIndicator = Constants.primaryNormal,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TimelineTile(
+      alignment: TimelineAlign.manual,
+      lineXY: 0.1,
+      isFirst: isFirst,
+      isLast: isLast,
+      indicatorStyle: IndicatorStyle(
+          width: 20,
+          color: Constants.primaryNormal,
+          padding: const EdgeInsets.all(6),
+          indicator: Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: parcelIndicator, width: 5),
+                color: Colors.white),
+          )),
+      endChild: _RightChild(
+        title: item.title,
+        message: item.subtitle,
+      ),
+      beforeLineStyle:
+          const LineStyle(color: Constants.primaryNormal, thickness: 1),
+    );
+  }
+}
+
+class TimelineItem {
+  final String title;
+  final Widget subtitle;
+  final bool isFirst;
+  final bool isLast;
+  final Color parcelIndicator;
+
+  TimelineItem({
+    required this.title,
+    required this.subtitle,
+    this.isFirst = false,
+    this.isLast = false,
+    this.parcelIndicator = Constants.primaryNormal,
+  });
+}
+
+class _RightChild extends StatelessWidget {
+  final String title;
+  final Widget message;
+  final Widget? mapFrame;
+  final bool disabled;
+
+  const _RightChild({
+    super.key,
+    required this.title,
+    required this.message,
+    this.disabled = false,
+    this.mapFrame,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+      child: Row(
+        children: <Widget>[
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              DefaultText(
+                text: title,
+                fontColor:
+                    disabled ? const Color(0xFFBABABA) : Constants.blackNormal,
+                size: 18,
+                weight: FontWeight.bold,
+              ),
+              const SizedBox(height: 6),
+              message,
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+//UI
+ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: controller.stepperItem.length,
+                    itemBuilder: (context, index) {
+                      final item = controller.stepperItem[index];
+                      return
+
+                      CustomTimeline(
+                        item: item,
+                        isFirst: index == 0,
+                        isLast:
+                            index == controller.timelineItems.length - 1,
+                        parcelIndicator: item.parcelIndicator,
+                      );
+                    }),

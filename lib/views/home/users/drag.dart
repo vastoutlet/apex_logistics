@@ -26,13 +26,13 @@ class _DraggableButtonExampleState extends State<DraggableButtonExample> {
                 child: Draggable(
                   axis: Axis.horizontal,
                   feedback: _buildButton(),
-                  child: _buildButton(),
                   childWhenDragging: Container(),
                   onDragEnd: (details) {
                     setState(() {
                       leftPosition = (details.offset.dx - 50).clamp(0.0, 200.0);
                     });
                   },
+                  child: _buildButton(),
                 ),
               ),
             ],
@@ -50,7 +50,7 @@ class _DraggableButtonExampleState extends State<DraggableButtonExample> {
         color: Colors.grey[800],
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Center(
+      child: const Center(
         child: Text(
           'Go Online',
           style: TextStyle(
