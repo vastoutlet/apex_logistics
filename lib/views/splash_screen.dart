@@ -3,6 +3,7 @@ import 'package:apex_logistics/main.dart';
 import 'package:apex_logistics/utils/constant.dart';
 import 'package:apex_logistics/views/auth/signin.dart';
 import 'package:apex_logistics/views/onboarding/onboarding.dart';
+import 'package:apex_logistics/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -35,7 +36,7 @@ class SplashScreen extends StatelessWidget {
       ),
       // backgroundColor: Constants.backgroundColor,
       splashIconSize: 300.0,
-      nextScreen: controller.onboarding.value ? SignIn() : Onboarding(),
+      nextScreen: controller.onboarding.value ? const Wrapper() : Onboarding(),
     );
   }
 }

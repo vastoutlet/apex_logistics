@@ -7,50 +7,25 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:411300721513:android:34d8aadf94a6d8bbdc83f8",
-        "android_client_info": {
-          "package_name": "com.apexlogistics.app"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCanRMgeA0tfli4udyU-IWouIpHqAw6ggk"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:411300721513:android:adffb4a5a5164684dc83f8",
-        "android_client_info": {
-          "package_name": "com.apexlogistics.logisticsapp"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCanRMgeA0tfli4udyU-IWouIpHqAw6ggk"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:411300721513:android:18b44f0861f80ef9dc83f8",
         "android_client_info": {
           "package_name": "com.example.apex_logistics"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "411300721513-hpfbkhb1njg8d8lu8qhctu53o0lgk3dc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.apex_logistics",
+            "certificate_hash": "47fe132a11fa1584a85b4b4f31486f1b558730a5"
+          }
+        },
+        {
+          "client_id": "411300721513-3c85fsq6c95be22samshfbria1if30bh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCanRMgeA0tfli4udyU-IWouIpHqAw6ggk"
@@ -58,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "411300721513-3c85fsq6c95be22samshfbria1if30bh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "411300721513-qufaa6p0n1j6s9tsv3dfagpmejamr9c2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.apexLogistics"
+              }
+            }
+          ]
         }
       }
     }

@@ -3,6 +3,7 @@ import 'package:apex_logistics/components/defaultDrawerItems.dart';
 import 'package:apex_logistics/components/defaultText.dart';
 import 'package:apex_logistics/routes/routes.dart';
 import 'package:apex_logistics/utils/constant.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -115,7 +116,10 @@ class DefaultSideBar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   DefaultButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(Get.context!);
+                      FirebaseAuth.instance.signOut();
+                    },
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

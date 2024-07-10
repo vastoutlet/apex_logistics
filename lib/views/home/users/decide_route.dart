@@ -7,10 +7,11 @@ import 'package:apex_logistics/components/showTripModals.dart';
 import 'package:apex_logistics/utils/constant.dart';
 import 'package:apex_logistics/views/home/users/confirm_address.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 class DecideRoute extends StatefulWidget {
-  DecideRoute({super.key});
+  const DecideRoute({super.key});
 
   @override
   State<DecideRoute> createState() => _DecideRouteState();
@@ -18,6 +19,7 @@ class DecideRoute extends StatefulWidget {
 
 class _DecideRouteState extends State<DecideRoute> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  DateTime timeBackPressed = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -25,51 +27,74 @@ class _DecideRouteState extends State<DecideRoute> {
     return Scaffold(
       key: scaffoldKey,
       body: SafeArea(
-        child: Stack(
-          children: [
-            // MAP
-            Image.asset(
-              "assets/images/map.png",
-              fit: BoxFit.fill,
-              height: size.height,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 30,
-                vertical: 10,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // APP BAR
-                  DefaultAppBar2(
-                    backgroundColor: Constants.whiteLight,
-                    iconColor: Constants.blackDark,
-                    icon: Icons.menu,
-                    onPressed: () => scaffoldKey.currentState!.openDrawer(),
-                  ),
+        child: PopScope(
+          canPop: false,
+          onPopInvoked: (bool didPop) async {
+            final difference = DateTime.now().difference(timeBackPressed);
+            final isExitWarning = difference >= const Duration(seconds: 2);
+            timeBackPressed = DateTime.now();
 
-                  // Current Location
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: DefaultForm(
-                      icon: Icon(Icons.my_location),
-                      hintText: "Current Location",
-                    ),
-                  ),
+            if (didPop) {
+              return;
+            }
 
-                  // Destination
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: DefaultForm(
-                      icon: Icon(Icons.location_on),
-                      hintText: "Destination",
-                    ),
-                  ),
-                ],
+            if (isExitWarning) {
+              showToast(
+                'Press back again to exit',
+                context: context,
+                animation: StyledToastAnimation.slideFromTopFade,
+                position: StyledToastPosition.top,
+              );
+            } else {
+              SystemNavigator.pop();
+            }
+          },
+          child: Stack(
+            children: [
+              // MAP
+              Image.asset(
+                "assets/images/map.png",
+                fit: BoxFit.fill,
+                height: size.height,
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 30,
+                  vertical: 10,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // APP BAR
+                    DefaultAppBar2(
+                      backgroundColor: Constants.whiteLight,
+                      iconColor: Constants.blackDark,
+                      icon: Icons.menu,
+                      onPressed: () => scaffoldKey.currentState!.openDrawer(),
+                    ),
+
+                    // Current Location
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: DefaultForm(
+                        icon: Icon(Icons.my_location),
+                        hintText: "Current Location",
+                      ),
+                    ),
+
+                    // Destination
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: DefaultForm(
+                        icon: Icon(Icons.location_on),
+                        hintText: "Destination",
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       drawer: const DefaultSideBar(),

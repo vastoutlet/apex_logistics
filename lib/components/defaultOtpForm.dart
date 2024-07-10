@@ -1,7 +1,6 @@
 import 'package:apex_logistics/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 class DefaultOtpForm extends StatelessWidget {
   final List<TextEditingController>? controller;
@@ -25,7 +24,7 @@ class DefaultOtpForm extends StatelessWidget {
                 height: 68,
                 width: 64,
                 child: TextFormField(
-                  // controller: controller![index],
+                  controller: controller![index],
                   onChanged: (value) {
                     if (value.length == 1) {
                       FocusScope.of(context).nextFocus();
