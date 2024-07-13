@@ -35,21 +35,21 @@ class _LinkAuthenticationState extends State<LinkAuthentication> {
 
   @override
   Widget build(BuildContext context) {
+    var textScaleFactor = MediaQuery.of(context).textScaler;
     final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Constants.whiteLight,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-          child: Form(
-            key: _formKey,
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
             child: Column(
               children: [
                 // SVG
                 Lottie.asset(
                   widget.imagePath,
-                  width: 400,
-                  height: 300,
+                  width: 300,
+                  height: 200,
                 ),
                 // Heading
                 DefaultText(
@@ -57,71 +57,77 @@ class _LinkAuthenticationState extends State<LinkAuthentication> {
                   size: 25,
                   weight: FontWeight.bold,
                 ),
-
-                // Subtitle
                 const SizedBox(height: 10),
+                // Subtitle
                 DefaultText(
                   text: widget.subtitle,
                   size: 18,
                   weight: FontWeight.normal,
                 ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      // Phone number text field
+                      if (widget.method == 'phone') ...[
+                        const SizedBox(height: 40),
+                        DefaultForm(
+                          icon: Image.asset("assets/images/flag.png"),
+                          hintText: "phone number",
+                          controller: signInController.phoneNumberController,
+                          validator: FormValidator.phoneValidator,
+                          keyboardType: TextInputType.phone,
+                        ),
 
-                // Phone number text field
-                if (widget.method == 'phone') ...[
-                  const SizedBox(height: 40),
-                  DefaultForm(
-                    icon: Image.asset("assets/images/flag.png"),
-                    hintText: "phone number",
-                    controller: signInController.phoneNumberController,
-                    validator: FormValidator.phoneValidator,
-                    keyboardType: TextInputType.phone,
-                  ),
-
-                  // Sign in button
-                  const SizedBox(height: 40),
-                  SizedBox(
-                    width: double.infinity,
-                    child: DefaultButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          signInController.signInWithPhone();
-                        }
-                      },
-                      child: const DefaultText(
-                        text: "Link Phone Number",
-                        fontColor: Constants.whiteNormal,
-                        size: 18,
-                      ),
-                    ),
-                  ),
-                ],
-                // Sign in with google
-                if (widget.method == 'google') ...[
-                  const SizedBox(height: 30),
-                  SizedBox(
-                    width: double.infinity,
-                    child: DefaultButton(
-                      borderColor: Constants.primaryNormal,
-                      buttonColor: Constants.whiteNormal,
-                      onPressed: () => signInController.signInWithGoogle(true),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            "assets/images/google.png",
-                            width: 20,
+                        // Sign in button
+                        const SizedBox(height: 40),
+                        SizedBox(
+                          width: double.infinity,
+                          child: DefaultButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                signInController.signInWithPhone();
+                              }
+                            },
+                            child: const DefaultText(
+                              text: "Link Phone Number",
+                              fontColor: Constants.whiteNormal,
+                              size: 18,
+                            ),
                           ),
-                          const SizedBox(width: 25),
-                          const DefaultText(
-                            text: "Link with Google",
-                            size: 18,
-                            weight: FontWeight.normal,
+                        ),
+                      ],
+                      // Sign in with google
+                      if (widget.method == 'google') ...[
+                        const SizedBox(height: 30),
+                        SizedBox(
+                          width: double.infinity,
+                          child: DefaultButton(
+                            borderColor: Constants.primaryNormal,
+                            buttonColor: Constants.whiteNormal,
+                            onPressed: () =>
+                                signInController.signInWithGoogle(true),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  "assets/images/google.png",
+                                  width: 20,
+                                ),
+                                const SizedBox(width: 25),
+                                const DefaultText(
+                                  text: "Link with Google",
+                                  size: 18,
+                                  weight: FontWeight.normal,
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
+                        )
+                      ],
+                    ],
+                  ),
+                ),
               ],
             ),
           ),

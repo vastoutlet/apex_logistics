@@ -6,13 +6,13 @@ class OnboardingItems {
       image: "assets/images/onboard1.json",
       title: "Optimized Routes",
       desc:
-          "Save time and fuel with our intelligent route optimization feature. Save time and fuel with our intelligent route optimization feature.Save time and fuel with our intelligent route optimization",
+          "Save time and fuel with our intelligent route optimization feature.Save time and fuel with our intelligent route optimization feature.",
     ),
     OnboardingInfo(
       image: "assets/images/onboard2.json",
       title: "Real-Time Tracking",
       desc:
-          "Keep an eye on your shipments and vehicles with our real-time GPS tracking. Keep an eye on your shipments and vehicles with our real-time GPS tracking.",
+          "Keep an eye on your shipments and vehicles with our real-time GPS tracking.",
     ),
     OnboardingInfo(
       image: "assets/images/onboard3.json",

@@ -159,6 +159,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Heading
+
                     const DefaultText(
                       text: "Enter the code",
                       size: 20,
@@ -167,12 +168,25 @@ class _VerifyOTPState extends State<VerifyOTP> {
 
                     // Heading
                     const SizedBox(height: 10),
-                    DefaultText(
-                      text:
-                          "we have sent a code to ${arguments['phoneNumber']}",
-                      size: 18,
-                      weight: FontWeight.normal,
+                    Text.rich(
+                      TextSpan(
+                          text: "we have sent a code to ",
+                          style: const TextStyle(fontSize: 16.0),
+                          children: [
+                            TextSpan(
+                                text: "${arguments['phoneNumber']}",
+                                style: const TextStyle(
+                                    fontFamily: "RobotoRegular",
+                                    color: Constants.primarydark,
+                                    fontSize: 16.0))
+                          ]),
                     ),
+                    // DefaultText(
+                    //     text:
+                    //         "we have sent a code to ${arguments['phoneNumber']}",
+                    //     size: 18,
+                    //     weight: FontWeight.normal,
+                    //     fontColor: Constants.primaryNormal),
 
                     // TextField
                     const SizedBox(height: 20),
