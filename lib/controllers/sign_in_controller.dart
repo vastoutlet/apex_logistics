@@ -191,7 +191,7 @@ class SignInController extends GetxController {
 
       // navigator!.pop(Get.context!);
 
-      Get.offAll(Routes.decideRoute);
+      Get.offAllNamed(Routes.decideRoute);
       defaultSnackBar(Get.overlayContext!, true, "Sign in successful!");
     } on FirebaseAuthException catch (e) {
       navigator!.pop(Get.context!);
