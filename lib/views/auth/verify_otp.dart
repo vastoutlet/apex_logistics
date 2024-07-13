@@ -136,6 +136,8 @@ class _VerifyOTPState extends State<VerifyOTP> {
       borderRadius: BorderRadius.circular(10),
     );
 
+    final otpLength = 6;
+
     return Scaffold(
       backgroundColor: Constants.whiteLight,
       body: SafeArea(
@@ -155,101 +157,110 @@ class _VerifyOTPState extends State<VerifyOTP> {
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Heading
-                    const DefaultText(
-                      text: "Enter the code",
-                      size: 20,
-                      weight: FontWeight.bold,
-                    ),
-
-                    // Heading
-                    const SizedBox(height: 10),
-                    DefaultText(
-                      text:
-                          "we have sent a code to ${arguments['phoneNumber']}",
-                      size: 18,
-                      weight: FontWeight.normal,
-                    ),
-
-                    // TextField
-                    const SizedBox(height: 20),
-                    Form(
-                      key: _formKey,
-                      child: Pinput(
-                        length: 6,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        defaultPinTheme: defaultPinTheme,
-                        focusedPinTheme: defaultPinTheme,
-                        errorPinTheme: errorPinTheme,
-                        controller: signInController.otpController,
-                        onCompleted: (pin) {
-                          if (pin.length == 6) {
-                            signInController.isButtonEnabled.value = true;
-                          }
-                        },
-                        validator: (pin) {
-                          if (signInController.customError.isNotEmpty) {
-                            return signInController.customError.value;
-                          }
-                          return null;
-                        },
+                child: Obx(
+                  () => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Heading
+                      const DefaultText(
+                        text: "Enter the code",
+                        size: 20,
+                        weight: FontWeight.bold,
                       ),
-                    ),
 
-                    // resend code & invalid code
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        // Resend code
-                        TextButton(
-                          onPressed: () => resendOTP(),
-                          child: DefaultText(
-                            text:
-                                "Click here to resend Code after ${_countdown}s",
-                          ),
+                      // Heading
+                      const SizedBox(height: 10),
+                      DefaultText(
+                        text:
+                            "we have sent a code to ${arguments['phoneNumber']}",
+                        size: 18,
+                        weight: FontWeight.normal,
+                      ),
+
+                      // TextField
+                      const SizedBox(height: 20),
+                      Form(
+                        key: _formKey,
+                        child: Pinput(
+                          length: 6,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          defaultPinTheme: defaultPinTheme,
+                          focusedPinTheme: defaultPinTheme,
+                          errorPinTheme: errorPinTheme,
+                          controller: signInController.otpController,
+                          onChanged: (pin) {
+                            signInController.otpControllerText.value = pin;
+                          },
+                          onCompleted: (pin) {
+                            if (pin.length == otpLength) {
+                              signInController.customError.value = "";
+                            }
+                          },
+                          validator: (pin) {
+                            if (signInController.customError.value != "") {
+                              return signInController.customError.value;
+                            }
+                            return null;
+                          },
                         ),
-                        // Invalid code
-                        Visibility(
-                          visible: isVisible,
-                          child: TextButton(
-                            onPressed: () {},
+                      ),
+
+                      // resend code & invalid code
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // Resend code
+                          TextButton(
+                            onPressed: () => resendOTP(),
                             child: DefaultText(
-                              text: "Invalid Code",
-                              fontColor: uiColor,
+                              text:
+                                  "Click here to resend Code after ${_countdown}s",
                             ),
                           ),
-                        ),
-                      ],
-                    ),
+                          // Invalid code
+                          Visibility(
+                            visible: isVisible,
+                            child: TextButton(
+                              onPressed: () {},
+                              child: DefaultText(
+                                text: "Invalid Code",
+                                fontColor: uiColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
 
-                    // confirm button
-                    const SizedBox(height: 10),
-                    Obx(
-                      () => DefaultButton(
-                        onPressed: signInController.isButtonEnabled.value
-                            ? signInController.verifyOTP
-                            : null,
-                        buttonColor: signInController.isButtonEnabled.value
-                            ? uiColor
-                            : disabledColor,
+                      // confirm button
+                      const SizedBox(height: 10),
+                      DefaultButton(
+                        onPressed:
+                            signInController.otpControllerText.value.length == otpLength
+                                ? () async {
+                                    await signInController.verifyOTP();
+                                    _formKey.currentState?.validate();
+                                  }
+                                : null,
+                        buttonColor:
+                            signInController.otpControllerText.value.length == otpLength
+                                ? uiColor
+                                : disabledColor,
                         child: signInController.isLoading.value
                             ? const CircularProgressIndicator(
                                 color: Constants.whiteNormal,
                               )
                             : DefaultText(
                                 text: "Confirm",
-                                fontColor:
-                                    signInController.isButtonEnabled.value
-                                        ? Constants.whiteNormal
-                                        : Constants.blackNormal,
+                                fontColor: signInController
+                                            .otpControllerText.value.length ==
+                                        otpLength
+                                    ? Constants.whiteNormal
+                                    : Constants.blackNormal,
                                 size: 16,
                               ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],

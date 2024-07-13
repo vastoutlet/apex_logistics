@@ -96,6 +96,10 @@ class _SignInState extends State<SignIn> {
                           if (_formKey.currentState!.validate()) {
                             sharedPreferences.setBool("driver", false);
                             signInController.signInWithPhone();
+                            // Get.toNamed(Routes.verifyOTP, arguments: {
+                            //   'phoneNumber':
+                            //       signInController.phoneNumberController.text,
+                            // });
                           }
                         },
                         child: const DefaultText(
