@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "411300721513-f5o10718uiulit1jifrtr40522j4a6fo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.apex_logistics",
+            "certificate_hash": "2a6454a281ec21915cb2bed0640b548b3f6337df"
+          }
+        },
+        {
           "client_id": "411300721513-hpfbkhb1njg8d8lu8qhctu53o0lgk3dc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
