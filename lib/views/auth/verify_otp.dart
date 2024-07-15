@@ -28,48 +28,11 @@ class _VerifyOTPState extends State<VerifyOTP> {
   Color uiColor = Constants.primaryNormal;
   Color disabledColor = Constants.whiteDark;
   bool isValid = true;
-  bool isVisible = false;
 
   Duration _duration = const Duration(minutes: 2); // Duration of the timer
   Timer? _timer; // Timer object
   int _countdown = 0; // count down value
   final int _otpBoxes = 6;
-
-  List<TextEditingController>? controllers = []; //defaultOTP controllers
-
-  // Create OTP controllers
-  void populateController() {
-    for (int index = 0; index < _otpBoxes; index++) {
-      controllers!.add(TextEditingController());
-    }
-  }
-
-  // Retrieve values from controllers
-  String getFormValues() {
-    String otp = "";
-
-    for (var values in controllers!) {
-      otp += values.text;
-    }
-    return otp;
-  }
-
-  // Method to change UI color
-  void toggleColor(bool value) {
-    const Color errorColor = Constants.errorDark;
-    const Color successColor = Constants.primaryNormal;
-
-    setState(() {
-      if (value) {
-        uiColor = successColor;
-        isVisible = !value;
-      } else {
-        uiColor = errorColor;
-        isVisible = !value;
-      }
-      isValid = !!value;
-    });
-  }
 
   // Method for requesting new OTP
   void resendOTP() {
@@ -107,7 +70,6 @@ class _VerifyOTPState extends State<VerifyOTP> {
 
     startTimer(); // Start countdown
     arguments = Get.arguments;
-    populateController(); //populate controllers
   }
 
   @override
@@ -136,8 +98,6 @@ class _VerifyOTPState extends State<VerifyOTP> {
       borderRadius: BorderRadius.circular(10),
     );
 
-    final otpLength = 6;
-
     return Scaffold(
       backgroundColor: Constants.whiteLight,
       body: SafeArea(
@@ -157,30 +117,45 @@ class _VerifyOTPState extends State<VerifyOTP> {
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10,
                 ),
-                child: Obx(
-                  () => Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Heading
-                      const DefaultText(
-                        text: "Enter the code",
-                        size: 20,
-                        weight: FontWeight.bold,
-                      ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Heading
 
-                      // Heading
-                      const SizedBox(height: 10),
-                      DefaultText(
-                        text:
-                            "we have sent a code to ${arguments['phoneNumber']}",
-                        size: 18,
-                        weight: FontWeight.normal,
-                      ),
+                    const DefaultText(
+                      text: "Enter the code",
+                      size: 20,
+                      weight: FontWeight.bold,
+                    ),
 
-                      // TextField
-                      const SizedBox(height: 20),
-                      Form(
-                        key: _formKey,
+                    // Heading
+                    const SizedBox(height: 10),
+                    Text.rich(
+                      TextSpan(
+                          text: "we have sent a code to ",
+                          style: const TextStyle(fontSize: 16.0),
+                          children: [
+                            TextSpan(
+                                text: "${arguments['phoneNumber']}",
+                                style: const TextStyle(
+                                    fontFamily: "RobotoRegular",
+                                    color: Constants.primarydark,
+                                    fontSize: 16.0))
+                          ]),
+                    ),
+                    // DefaultText(
+                    //     text:
+                    //         "we have sent a code to ${arguments['phoneNumber']}",
+                    //     size: 18,
+                    //     weight: FontWeight.normal,
+                    //     fontColor: Constants.primaryNormal),
+
+                    // TextField
+                    const SizedBox(height: 20),
+
+                    Form(
+                      key: _formKey,
+                      child: SizedBox(
                         child: Pinput(
                           length: 6,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -192,9 +167,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                             signInController.otpControllerText.value = pin;
                           },
                           onCompleted: (pin) {
-                            if (pin.length == otpLength) {
-                              signInController.customError.value = "";
-                            }
+                            signInController.customError.value = "";
                           },
                           validator: (pin) {
                             if (signInController.customError.value != "") {
@@ -204,45 +177,39 @@ class _VerifyOTPState extends State<VerifyOTP> {
                           },
                         ),
                       ),
+                    ),
 
-                      // resend code & invalid code
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // Resend code
-                          TextButton(
-                            onPressed: () => resendOTP(),
-                            child: DefaultText(
-                              text:
-                                  "Click here to resend Code after ${_countdown}s",
-                            ),
+                    // resend code & invalid code
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Resend code
+                        TextButton(
+                          onPressed: () => resendOTP(),
+                          child: DefaultText(
+                            text:
+                                "Click here to resend Code after ${_countdown}s",
                           ),
-                          // Invalid code
-                          Visibility(
-                            visible: isVisible,
-                            child: TextButton(
-                              onPressed: () {},
-                              child: DefaultText(
-                                text: "Invalid Code",
-                                fontColor: uiColor,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
+                    ),
 
-                      // confirm button
-                      const SizedBox(height: 10),
-                      DefaultButton(
-                        onPressed:
-                            signInController.otpControllerText.value.length == otpLength
-                                ? () async {
-                                    await signInController.verifyOTP();
-                                    _formKey.currentState?.validate();
-                                  }
-                                : null,
+                    // confirm button
+                    const SizedBox(height: 10),
+                    Obx(
+                      () => DefaultButton(
+                        onPressed: () async {
+                          if (signInController.otpControllerText.value.length ==
+                              _otpBoxes) {
+                            await signInController.verifyOTP();
+                            _formKey.currentState!.validate();
+                          } else {
+                            null;
+                          }
+                        },
                         buttonColor:
-                            signInController.otpControllerText.value.length == otpLength
+                            signInController.otpControllerText.value.length ==
+                                    _otpBoxes
                                 ? uiColor
                                 : disabledColor,
                         child: signInController.isLoading.value
@@ -253,14 +220,14 @@ class _VerifyOTPState extends State<VerifyOTP> {
                                 text: "Confirm",
                                 fontColor: signInController
                                             .otpControllerText.value.length ==
-                                        otpLength
+                                        _otpBoxes
                                     ? Constants.whiteNormal
                                     : Constants.blackNormal,
                                 size: 16,
                               ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],

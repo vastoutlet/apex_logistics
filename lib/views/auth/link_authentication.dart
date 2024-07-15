@@ -29,7 +29,6 @@ class LinkAuthentication extends StatefulWidget {
 }
 
 class _LinkAuthenticationState extends State<LinkAuthentication> {
-  DateTime timeBackPressed = DateTime.now();
 
   SignInController signInController = Get.put(SignInController());
 
@@ -44,24 +43,10 @@ class _LinkAuthenticationState extends State<LinkAuthentication> {
         child: PopScope(
           canPop: false,
           onPopInvoked: (bool didPop) async {
-            final difference = DateTime.now().difference(timeBackPressed);
-            final isExitWarning = difference >= const Duration(seconds: 2);
-            timeBackPressed = DateTime.now();
-
             if (didPop) {
               return;
             }
-
-            if (isExitWarning) {
-              showToast(
-                'Press back again to exit',
-                context: context,
-                animation: StyledToastAnimation.slideFromTopFade,
-                position: StyledToastPosition.top,
-              );
-            } else {
-              Get.offAndToNamed(Routes.signIn);
-            }
+            Get.toNamed(Routes.signIn);
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),

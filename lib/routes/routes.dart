@@ -59,7 +59,7 @@ final getPages = [
   ),
   GetPage(
     name: Routes.decideRoute,
-    page: () => const DecideRoute(),
+    page: () => DecideRoute(),
   ),
   GetPage(
     name: Routes.confirmAddress,

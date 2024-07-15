@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:apex_logistics/components/defaultLoader.dart';
 import 'package:apex_logistics/components/defaultSnackBar.dart';
 import 'package:apex_logistics/routes/routes.dart';
@@ -17,7 +15,6 @@ class SignInController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
 
   RxBool isLoading = false.obs;
-  RxBool isButtonEnabled = false.obs;
   var verificationID = "".obs;
   RxInt resendToken = 0.obs;
   var customError = "".obs;
@@ -42,18 +39,23 @@ class SignInController extends GetxController {
       },
       verificationFailed: (FirebaseAuthException e) {
         navigator!.pop(Get.context!);
-        if (e.code == 'invalid-phone-number') {
-          defaultSnackBar(Get.overlayContext!, false, Strings.phoneIsInvalid);
-        } else if (e.code == 'oo-many-requests') {
-          defaultSnackBar(
-              Get.overlayContext!, false, "Too many request try again later!");
-        } else {
-          defaultSnackBar(
-            Get.overlayContext!,
-            false,
-            "something went wrong, try again later!",
-          );
-          print("SIGNIN-OTP: ${e.toString()}");
+
+        switch (e.code) {
+          case 'invalid-phone-number':
+            defaultSnackBar(Get.overlayContext!, false, Strings.phoneIsInvalid);
+            break;
+          case 'too-many-requests':
+            defaultSnackBar(Get.overlayContext!, false,
+                "Too many requests, try again later!");
+            break;
+          case 'credential-already-in-use':
+            defaultSnackBar(Get.overlayContext!, false,
+                "This phone number already exist, try sign in using Phone Number");
+            break;
+          default:
+            defaultSnackBar(Get.overlayContext!, false,
+                "Something went wrong, try again later!");
+            print("SIGNIN-OTP: ${e.toString()}");
         }
       },
       codeSent: (String verificationId, int? resendToken) {
@@ -68,7 +70,6 @@ class SignInController extends GetxController {
         }
         otpController.clear();
         otpControllerText.value = "";
-        isButtonEnabled.value = false;
       },
       codeAutoRetrievalTimeout: (String verificationId) {
         verificationID.value = verificationId;
@@ -121,6 +122,8 @@ class SignInController extends GetxController {
           switch (e.code) {
             case "invalid-verification-code":
               customError.value = "Invalid Code";
+              defaultSnackBar(Get.overlayContext!, false,
+                  "Invalid Code Supply. Try again.");
               break;
             case "session-expired":
               defaultSnackBar(Get.overlayContext!, false,
@@ -137,9 +140,12 @@ class SignInController extends GetxController {
         otpController.clear();
         otpControllerText.value = "";
       }
+    } else {
+      isLoading.value = false;
+      otpController.clear();
+      otpControllerText.value = "";
+      defaultSnackBar(Get.overlayContext!, false, "Kindly supply OTP");
     }
-    isLoading.value = false;
-    // customError.value = "Invalid Code";
   }
 
   // signInMethod: Google
@@ -183,7 +189,7 @@ class SignInController extends GetxController {
         if (userCredential.user != null) {
           List<UserInfo> providers = auth.currentUser!.providerData;
           if (providers.length > 1) {
-            Get.toNamed(Routes.decideRoute);
+            Get.offAndToNamed(Routes.decideRoute);
             defaultSnackBar(Get.overlayContext!, true, "Sign in successful!");
             return;
           } else {
@@ -196,10 +202,13 @@ class SignInController extends GetxController {
             defaultSnackBar(Get.overlayContext!, true,
                 "Proceed with linking phone number!");
           }
+        } else {
+          defaultSnackBar(
+              Get.overlayContext!, false, "Sign in failed. Please try again");
         }
       } else {
         // Perform linking with current user
-        linkCredentials(credential);
+        await linkCredentials(credential);
       }
     } catch (e) {
       print("ERROR-SIGN IN WITH GOOGLE: ${e.toString()}");
@@ -215,9 +224,7 @@ class SignInController extends GetxController {
       final userCredential = await FirebaseAuth.instance.currentUser
           ?.linkWithCredential(credential);
 
-      // navigator!.pop(Get.context!);
       Get.offAndToNamed(Routes.decideRoute);
-      // Get.toNamed(Routes.decideRoute);
       defaultSnackBar(Get.overlayContext!, true, "Sign in successful!");
     } on FirebaseAuthException catch (e) {
       navigator!.pop(Get.context!);
