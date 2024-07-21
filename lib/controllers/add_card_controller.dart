@@ -1,18 +1,37 @@
-import 'package:apex_logistics/components/defaultSnackBar.dart';
+import 'package:apex_logistics/components/defaultSnackBar2.dart';
+import 'package:apex_logistics/components/defaultText.dart';
+import 'package:apex_logistics/controllers/payment_controller.dart';
 import 'package:apex_logistics/utils/constant.dart';
 import 'package:apex_logistics/utils/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class AddNewCardController extends GetxController {
   var buttonColor = Constants.primaryNormal;
   RxBool isCardNumberNotEmpty = false.obs;
+  RxBool isCVVNotEmpty = false.obs;
+  RxBool isExpiryNotEmpty = false.obs;
   RxBool isButtonEnabled = false.obs;
   final TextEditingController cardNumberController = TextEditingController();
+  final TextEditingController cvvController = TextEditingController();
+  final TextEditingController expiryController = TextEditingController();
   var cardTypeIcon = Rxn<Widget>();
   var paymentCard = PaymentCard().obs;
 
   final formKey = GlobalKey<FormState>();
+
+  updatePaymentMethodList({String? cardNum, CardType? iconType}) {
+    // update payment method list
+    var paymentMethod = Get.find<PaymentController>();
+    paymentMethod.paymentMethod.insert(
+        0,
+        DefaultText(
+          text: "•••• $cardNum",
+        ));
+    paymentMethod.paymentIcon.insert(0, CardUtils.getCardIcon(iconType)!);
+    paymentMethod.setDefaultPayment(0);
+  }
 
   getCardTypeFrmNum() {
     String input = cardNumberController.text;
@@ -29,7 +48,13 @@ class AddNewCardController extends GetxController {
 
     print("collected data: ${paymentCard.value.toString()}");
 
-    defaultSnackBar(context, true, "Card Details Successfully Saved");
+    updatePaymentMethodList(
+        cardNum: paymentCard.value.number!.substring(12, 16),
+        iconType: paymentCard.value.type);
+
+    Get.showSnackbar(
+        defaultSnackBar(tag: true, message: "Card Details Successfully Added"));
+
     Get.close(1);
   }
 
@@ -43,6 +68,14 @@ class AddNewCardController extends GetxController {
     cardNumberController.addListener(() {
       getCardTypeFrmNum();
       isCardNumberNotEmpty.value = cardNumberController.text.isNotEmpty;
+    });
+
+    cvvController.addListener(() {
+      isCVVNotEmpty.value = cvvController.text.isNotEmpty;
+    });
+
+    expiryController.addListener(() {
+      isExpiryNotEmpty.value = expiryController.text.isNotEmpty;
     });
   }
 }
@@ -75,7 +108,7 @@ enum CardType { Master, Visa, Verve, Others, Invalid }
 class CardUtils {
   static Widget? getCardIcon(CardType? cardType) {
     String img = "";
-    Icon? icon;
+    Widget? icon;
     // get card type
     switch (cardType) {
       case CardType.Master:
@@ -88,11 +121,12 @@ class CardUtils {
         img = "verve.png";
         break;
       case CardType.Others:
-        icon = const Icon(
-          Icons.credit_card,
-          size: 40,
-          color: Constants.primaryNormal,
+        icon = SvgPicture.asset(
+          "assets/images/Magnetic_Card.svg",
+          width: 20,
+          height: 20,
         );
+
         break;
       default:
         icon = const Icon(

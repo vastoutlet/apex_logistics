@@ -7,7 +7,6 @@ import 'package:apex_logistics/controllers/add_card_controller.dart';
 import 'package:apex_logistics/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class AddCard extends StatelessWidget {
@@ -41,53 +40,89 @@ class AddCard extends StatelessWidget {
                           LengthLimitingTextInputFormatter(16),
                           CardNumberInputFormatter()
                         ],
+                        suffixIcon: controller.isCardNumberNotEmpty.value
+                            ? IconButton(
+                                onPressed: () {
+                                  controller.cardNumberController.clear();
+                                },
+                                icon: const Icon(
+                                  Icons.cancel,
+                                  color: Constants.whiteDark,
+                                  size: 30.0,
+                                ))
+                            : const SizedBox.shrink(),
                         validator: CardUtils.validateCardNum,
                         onSaved: (value) {
                           print("value is $value");
                           controller.paymentCard.value.number =
-                              CardUtils.getCleanedNumber(value!); 
+                              CardUtils.getCleanedNumber(value!);
                         })),
                     const SizedBox(height: 20.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Expanded(
-                          child: DefaultForm(
-                            borderWidth: 5,
-                            focusedBorderColor: Constants.primaryNormal,
-                            hintText: "Secure Code",
-                            keyboardType: TextInputType.phone,
-                            inputFormatter: [
-                              FilteringTextInputFormatter.digitsOnly,
-                              LengthLimitingTextInputFormatter(3),
-                            ],
-                            validator: CardUtils.validateCVV,
-                            onSaved: (value) => controller
-                                .paymentCard.value.cvv = int.parse(value!),
-                          ),
+                          child: Obx(() => DefaultForm(
+                                controller: controller.cvvController,
+                                borderWidth: 5,
+                                focusedBorderColor: Constants.primaryNormal,
+                                hintText: "Secure Code",
+                                keyboardType: TextInputType.phone,
+                                inputFormatter: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  LengthLimitingTextInputFormatter(3),
+                                ],
+                                suffixIcon: controller.isCVVNotEmpty.value
+                                    ? IconButton(
+                                        onPressed: () {
+                                          controller.cvvController.clear();
+                                        },
+                                        icon: const Icon(
+                                          Icons.cancel,
+                                          color: Constants.whiteDark,
+                                          size: 30.0,
+                                        ))
+                                    : const SizedBox.shrink(),
+                                validator: CardUtils.validateCVV,
+                                onSaved: (value) => controller
+                                    .paymentCard.value.cvv = int.parse(value!),
+                              )),
                         ),
                         const SizedBox(width: 20.0),
                         Expanded(
-                          child: DefaultForm(
-                            borderWidth: 5,
-                            focusedBorderColor: Constants.primaryNormal,
-                            // icon: Icons.add_card,
-                            hintText: "Expiry Date",
-                            keyboardType: TextInputType.number,
-                            inputFormatter: [
-                              FilteringTextInputFormatter.digitsOnly,
-                              LengthLimitingTextInputFormatter(4),
-                              CardMonthInputFormatter()
-                            ],
-                            validator: CardUtils.validateExpiryDate,
-                            onSaved: (value) {
-                              List<int> expiryDate =
-                                  CardUtils.getExpiryDate(value!);
-                              controller.paymentCard.value.month =
-                                  expiryDate[0];
-                              controller.paymentCard.value.year = expiryDate[1];
-                            },
-                          ),
+                          child: Obx(() => DefaultForm(
+                                controller: controller.expiryController,
+                                borderWidth: 5,
+                                focusedBorderColor: Constants.primaryNormal,
+                                // icon: Icons.add_card,
+                                hintText: "Expiry Date",
+                                keyboardType: TextInputType.number,
+                                inputFormatter: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  LengthLimitingTextInputFormatter(4),
+                                  CardMonthInputFormatter()
+                                ],
+                                suffixIcon: controller.isExpiryNotEmpty.value
+                                    ? IconButton(
+                                        onPressed: () {
+                                          controller.expiryController.clear();
+                                        },
+                                        icon: const Icon(
+                                          Icons.cancel,
+                                          color: Constants.whiteDark,
+                                          size: 30.0,
+                                        ))
+                                    : const SizedBox.shrink(),
+                                validator: CardUtils.validateExpiryDate,
+                                onSaved: (value) {
+                                  List<int> expiryDate =
+                                      CardUtils.getExpiryDate(value!);
+                                  controller.paymentCard.value.month =
+                                      expiryDate[0];
+                                  controller.paymentCard.value.year =
+                                      expiryDate[1];
+                                },
+                              )),
                         )
                       ],
                     ),

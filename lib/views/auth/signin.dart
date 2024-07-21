@@ -106,7 +106,8 @@ class _SignInState extends State<SignIn> {
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               sharedPreferences.setBool("driver", false);
-                              signInController.signInWithPhone();
+                              Get.toNamed(Routes.decideRoute);
+                              // signInController.signInWithPhone();
                             }
                           },
                           child: const DefaultText(
