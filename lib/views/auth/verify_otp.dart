@@ -28,48 +28,11 @@ class _VerifyOTPState extends State<VerifyOTP> {
   Color uiColor = Constants.primaryNormal;
   Color disabledColor = Constants.whiteDark;
   bool isValid = true;
-  bool isVisible = false;
 
   Duration _duration = const Duration(minutes: 2); // Duration of the timer
   Timer? _timer; // Timer object
   int _countdown = 0; // count down value
   final int _otpBoxes = 6;
-
-  List<TextEditingController>? controllers = []; //defaultOTP controllers
-
-  // Create OTP controllers
-  void populateController() {
-    for (int index = 0; index < _otpBoxes; index++) {
-      controllers!.add(TextEditingController());
-    }
-  }
-
-  // Retrieve values from controllers
-  String getFormValues() {
-    String otp = "";
-
-    for (var values in controllers!) {
-      otp += values.text;
-    }
-    return otp;
-  }
-
-  // Method to change UI color
-  void toggleColor(bool value) {
-    const Color errorColor = Constants.errorDark;
-    const Color successColor = Constants.primaryNormal;
-
-    setState(() {
-      if (value) {
-        uiColor = successColor;
-        isVisible = !value;
-      } else {
-        uiColor = errorColor;
-        isVisible = !value;
-      }
-      isValid = !!value;
-    });
-  }
 
   // Method for requesting new OTP
   void resendOTP() {
@@ -107,7 +70,6 @@ class _VerifyOTPState extends State<VerifyOTP> {
 
     startTimer(); // Start countdown
     arguments = Get.arguments;
-    populateController(); //populate controllers
   }
 
   @override
@@ -190,26 +152,30 @@ class _VerifyOTPState extends State<VerifyOTP> {
 
                     // TextField
                     const SizedBox(height: 20),
+
                     Form(
                       key: _formKey,
-                      child: Pinput(
-                        length: 6,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        defaultPinTheme: defaultPinTheme,
-                        focusedPinTheme: defaultPinTheme,
-                        errorPinTheme: errorPinTheme,
-                        controller: signInController.otpController,
-                        onCompleted: (pin) {
-                          if (pin.length == 6) {
-                            signInController.isButtonEnabled.value = true;
-                          }
-                        },
-                        validator: (pin) {
-                          if (signInController.customError.isNotEmpty) {
-                            return signInController.customError.value;
-                          }
-                          return null;
-                        },
+                      child: SizedBox(
+                        child: Pinput(
+                          length: 6,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          defaultPinTheme: defaultPinTheme,
+                          focusedPinTheme: defaultPinTheme,
+                          errorPinTheme: errorPinTheme,
+                          controller: signInController.otpController,
+                          onChanged: (pin) {
+                            signInController.otpControllerText.value = pin;
+                          },
+                          onCompleted: (pin) {
+                            signInController.customError.value = "";
+                          },
+                          validator: (pin) {
+                            if (signInController.customError.value != "") {
+                              return signInController.customError.value;
+                            }
+                            return null;
+                          },
+                        ),
                       ),
                     ),
 
@@ -225,17 +191,6 @@ class _VerifyOTPState extends State<VerifyOTP> {
                                 "Click here to resend Code after ${_countdown}s",
                           ),
                         ),
-                        // Invalid code
-                        Visibility(
-                          visible: isVisible,
-                          child: TextButton(
-                            onPressed: () {},
-                            child: DefaultText(
-                              text: "Invalid Code",
-                              fontColor: uiColor,
-                            ),
-                          ),
-                        ),
                       ],
                     ),
 
@@ -243,22 +198,31 @@ class _VerifyOTPState extends State<VerifyOTP> {
                     const SizedBox(height: 10),
                     Obx(
                       () => DefaultButton(
-                        onPressed: signInController.isButtonEnabled.value
-                            ? signInController.verifyOTP
-                            : null,
-                        buttonColor: signInController.isButtonEnabled.value
-                            ? uiColor
-                            : disabledColor,
+                        onPressed: () async {
+                          if (signInController.otpControllerText.value.length ==
+                              _otpBoxes) {
+                            await signInController.verifyOTP();
+                            _formKey.currentState!.validate();
+                          } else {
+                            null;
+                          }
+                        },
+                        buttonColor:
+                            signInController.otpControllerText.value.length ==
+                                    _otpBoxes
+                                ? uiColor
+                                : disabledColor,
                         child: signInController.isLoading.value
                             ? const CircularProgressIndicator(
                                 color: Constants.whiteNormal,
                               )
                             : DefaultText(
                                 text: "Confirm",
-                                fontColor:
-                                    signInController.isButtonEnabled.value
-                                        ? Constants.whiteNormal
-                                        : Constants.blackNormal,
+                                fontColor: signInController
+                                            .otpControllerText.value.length ==
+                                        _otpBoxes
+                                    ? Constants.whiteNormal
+                                    : Constants.blackNormal,
                                 size: 16,
                               ),
                       ),

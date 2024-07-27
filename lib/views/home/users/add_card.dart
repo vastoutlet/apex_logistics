@@ -7,7 +7,6 @@ import 'package:apex_logistics/controllers/add_card_controller.dart';
 import 'package:apex_logistics/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class AddCard extends StatelessWidget {
@@ -45,7 +44,7 @@ class AddCard extends StatelessWidget {
                         onSaved: (value) {
                           print("value is $value");
                           controller.paymentCard.value.number =
-                              CardUtils.getCleanedNumber(value!); 
+                              CardUtils.getCleanedNumber(value!);
                         })),
                     const SizedBox(height: 20.0),
                     Row(

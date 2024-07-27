@@ -1,12 +1,12 @@
 import 'package:apex_logistics/components/defaultButton.dart';
 import 'package:apex_logistics/components/defaultForm.dart';
-import 'package:apex_logistics/components/defaultSnackBar.dart';
 import 'package:apex_logistics/components/defaultText.dart';
 import 'package:apex_logistics/controllers/sign_in_controller.dart';
 import 'package:apex_logistics/main.dart';
 import 'package:apex_logistics/routes/routes.dart';
 import 'package:apex_logistics/utils/constant.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -27,9 +27,46 @@ class _SignInState extends State<SignIn> {
 
   final _formKey = GlobalKey<FormState>();
 
+  Future<void> processSignIn(String method) async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    void decideMethod() async {
+      if (method == "google") {
+        await signInController.signInWithGoogle(false);
+      }
+
+      if (method == "phone") {
+        await signInController.signInWithPhone();
+      }
+    }
+
+    if (user != null) {
+      List<UserInfo> providers = user.providerData;
+
+      if (providers.isEmpty) {
+        decideMethod();
+      } else if (providers.length > 1) {
+        Get.offAndToNamed(Routes.decideRoute);
+      } else {
+        final firstProviderId = providers.first.providerId;
+        Get.toNamed(Routes.linkAuthentication, arguments: {
+          "imagePath": "assets/images/link1.json",
+          "heading": firstProviderId == "google.com"
+              ? "Link Account with Phone Number"
+              : "Link Account with Google",
+          "subtitle": firstProviderId == "google.com"
+              ? "we'll text a code to verify your number"
+              : "Complete linking your account to enable seamless access",
+          "method": firstProviderId == "google.com" ? "phone" : "google",
+        });
+      }
+    } else {
+      decideMethod();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Constants.whiteLight,
       body: SafeArea(
@@ -103,10 +140,10 @@ class _SignInState extends State<SignIn> {
                       SizedBox(
                         width: double.infinity,
                         child: DefaultButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              sharedPreferences.setBool("driver", false);
-                              signInController.signInWithPhone();
+                              sharedPreferences.setBool("driver", true);
+                              await processSignIn("phone");
                             }
                           },
                           child: const DefaultText(
@@ -132,9 +169,9 @@ class _SignInState extends State<SignIn> {
                         child: DefaultButton(
                           borderColor: Constants.primaryNormal,
                           buttonColor: Constants.whiteNormal,
-                          onPressed: () {
+                          onPressed: () async {
                             sharedPreferences.setBool("driver", false);
-                            signInController.signInWithGoogle(false);
+                            await processSignIn("google");
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
