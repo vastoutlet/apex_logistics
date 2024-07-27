@@ -11,6 +11,7 @@ class DecideRouteController extends GetxController {
   RxBool isDriver =
       true.obs; //based on the authenticated user type or use sharedPreference
   RxBool onlineCard = false.obs;
+  RxBool isDriverOnline = false.obs;
   Rx<double> leftPosition = 0.0.obs;
 
   incomingRequest(context, {double? size}) async {

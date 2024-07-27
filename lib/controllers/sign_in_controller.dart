@@ -139,6 +139,8 @@ class SignInController extends GetxController {
         isLoading.value = false;
         otpController.clear();
         otpControllerText.value = "";
+      } finally {
+        isLoading.value = false;
       }
     } else {
       isLoading.value = false;
