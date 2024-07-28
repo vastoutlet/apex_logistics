@@ -16,7 +16,7 @@ class DecideRouteController extends GetxController {
   RxBool isOnline = false.obs; //driver online status
   RxBool startRideModal = false.obs;
   Rx<double> leftPosition = 0.0.obs;
-
+  
   @override
   void onInit() {
     // TODO: implement onInit

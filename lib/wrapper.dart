@@ -38,7 +38,7 @@ class _WrapperState extends State<Wrapper> {
             List<UserInfo> providers = user!.providerData;
 
             if (providers.length > 1) {
-              return const DecideRoute();
+              return DecideRoute();
             } else {
               final firstProviderId = providers.first.providerId;
               return LinkAuthentication(
