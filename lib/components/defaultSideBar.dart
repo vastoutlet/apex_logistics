@@ -23,7 +23,7 @@ class DefaultSideBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           // SIDEBAR: Top-Section
-          GestureDetector(
+          InkWell(
             onTap: () {
               Get.close(1);
               Get.toNamed(Routes.profile);
@@ -69,7 +69,7 @@ class DefaultSideBar extends StatelessWidget {
           // SIDEBAR: Middle Section
           Container(
             width: size.width,
-            height: size.height * 0.35,
+            height: size.height * 0.4,
             decoration: const BoxDecoration(
               color: Constants.whiteLight,
               borderRadius: BorderRadius.only(
@@ -121,7 +121,7 @@ class DefaultSideBar extends StatelessWidget {
           // SIDEBAR: Bottom Section
           Container(
             width: size.width,
-            height: size.height * 0.42,
+            height: size.height * 0.3,
             padding: const EdgeInsets.only(
               top: 100,
               left: 20,
@@ -139,43 +139,34 @@ class DefaultSideBar extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  controller.isDriver.value
-                      ? DefaultButton(
-                          onPressed: () {
-                            Navigator.pop(Get.context!);
-                            FirebaseAuth.instance.signOut();
-                          },
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              DefaultText(
-                                text: "Become a User",
-                                fontColor: Constants.whiteNormal,
-                                size: 18,
-                              ),
-                              SizedBox(width: 20),
-                              Icon(Icons.person),
-                            ],
-                          ),
-                        )
-                      : DefaultButton(
-                          onPressed: () {
-                            Navigator.pop(Get.context!);
-                            FirebaseAuth.instance.signOut();
-                          },
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              DefaultText(
-                                text: "Become a Rider",
-                                fontColor: Constants.whiteNormal,
-                                size: 18,
-                              ),
-                              SizedBox(width: 10),
-                              Icon(Icons.delivery_dining_outlined, size: 20),
-                            ],
-                          ),
+                  DefaultButton(
+                    onPressed: () {
+                      if (controller.isDriver.value) {
+                        Navigator.pop(Get.context!);
+                        FirebaseAuth.instance.signOut();
+                      } else {
+                        Navigator.pop(Get.context!);
+                        FirebaseAuth.instance.signOut();
+                      }
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        DefaultText(
+                          text: (controller.isDriver.value)
+                              ? "Become a User"
+                              : "Become a Rider",
+                          fontColor: Constants.whiteNormal,
+                          size: 18,
                         ),
+                        const SizedBox(width: 10),
+                        (controller.isDriver.value)
+                            ? const Icon((Icons.person), size: 20)
+                            : const Icon(Icons.delivery_dining_outlined,
+                                size: 20),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),

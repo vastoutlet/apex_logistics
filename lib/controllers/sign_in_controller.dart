@@ -5,18 +5,16 @@ import 'package:apex_logistics/utils/strings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class SignInController extends GetxController {
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController otpController = TextEditingController();
+  RxString otpControllerText = "".obs;
 
   FirebaseAuth auth = FirebaseAuth.instance;
 
   RxBool isLoading = false.obs;
-  RxBool isButtonEnabled = false.obs;
   var verificationID = "".obs;
   RxInt resendToken = 0.obs;
   var customError = "".obs;
@@ -41,14 +39,23 @@ class SignInController extends GetxController {
       },
       verificationFailed: (FirebaseAuthException e) {
         navigator!.pop(Get.context!);
-        if (e.code == 'invalid-phone-number') {
-          defaultSnackBar(Get.overlayContext!, false, Strings.phoneIsInvalid);
-        } else {
-          defaultSnackBar(
-            Get.overlayContext!,
-            false,
-            "something went wrong, try again later!",
-          );
+
+        switch (e.code) {
+          case 'invalid-phone-number':
+            defaultSnackBar(Get.overlayContext!, false, Strings.phoneIsInvalid);
+            break;
+          case 'too-many-requests':
+            defaultSnackBar(Get.overlayContext!, false,
+                "Too many requests, try again later!");
+            break;
+          case 'credential-already-in-use':
+            defaultSnackBar(Get.overlayContext!, false,
+                "This phone number already exist, try sign in using Phone Number");
+            break;
+          default:
+            defaultSnackBar(Get.overlayContext!, false,
+                "Something went wrong, try again later!");
+            print("SIGNIN-OTP: ${e.toString()}");
         }
       },
       codeSent: (String verificationId, int? resendToken) {
@@ -62,7 +69,7 @@ class SignInController extends GetxController {
           });
         }
         otpController.clear();
-        isButtonEnabled.value = false;
+        otpControllerText.value = "";
       },
       codeAutoRetrievalTimeout: (String verificationId) {
         verificationID.value = verificationId;
@@ -72,51 +79,74 @@ class SignInController extends GetxController {
 
   // Verify OTP
   Future<void> verifyOTP() async {
-    try {
-      AuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: verificationID.value,
-        smsCode: otpController.text,
-      );
+    customError.value = "";
+    isLoading.value = true;
 
-      User? currentUser = FirebaseAuth.instance.currentUser;
+    if (otpController.value.text.length == 6) {
+      try {
+        AuthCredential credential = PhoneAuthProvider.credential(
+          verificationId: verificationID.value,
+          smsCode: otpController.value.text,
+        );
 
-      if (currentUser == null) {
-        // Sign in with the credential if no user is currently signed in
-        var credentials = await auth.signInWithCredential(credential);
-        if (credentials.user != null) {
-          otpController.clear();
+        User? currentUser = FirebaseAuth.instance.currentUser;
 
-          List<UserInfo> providers = auth.currentUser!.providerData;
-          if (providers.length > 1) {
-            Get.toNamed(Routes.decideRoute);
-            defaultSnackBar(Get.overlayContext!, true, "Sign in successful!");
-          } else {
-            Get.toNamed(Routes.linkAuthentication, arguments: {
-              "imagePath": "assets/images/link1.json",
-              "heading": "Link Account with Google",
-              "subtitle":
-                  "Complete linking your account to enable seamless access",
-              "method": "google",
-            });
+        if (currentUser == null) {
+          // Sign in with the credential if no user is currently signed in
+          var credentials = await auth.signInWithCredential(credential);
+          if (credentials.user != null) {
+            otpController.clear();
+            otpControllerText.value = "";
+
+            List<UserInfo> providers = auth.currentUser!.providerData;
+            if (providers.length > 1) {
+              Get.toNamed(Routes.decideRoute);
+              defaultSnackBar(Get.overlayContext!, true, "Sign in successful!");
+            } else {
+              Get.offAndToNamed(Routes.linkAuthentication, arguments: {
+                "imagePath": "assets/images/link1.json",
+                "heading": "Link Account with Google",
+                "subtitle":
+                    "Complete linking your account to enable seamless access",
+                "method": "google",
+              });
+            }
           }
+        } else {
+          // Perform linking with current user
+          await linkCredentials(credential);
         }
-      } else {
-        // Perform linking with current user
-        await linkCredentials(credential);
-      }
-    } catch (e) {
-      String errorMessage = "An unknown error occurred. Please try again.";
-      if (e is FirebaseAuthException) {
-        switch (e.code) {
-          case "invalid-verification-code":
-            customError.value = "Invalid Code";
-            break;
-          default:
-            defaultSnackBar(Get.overlayContext!, false, errorMessage);
+      } catch (e) {
+        String errorMessage = "An unknown error occurred. Please try again.";
+        if (e is FirebaseAuthException) {
+          switch (e.code) {
+            case "invalid-verification-code":
+              customError.value = "Invalid Code";
+              defaultSnackBar(Get.overlayContext!, false,
+                  "Invalid Code Supply. Try again.");
+              break;
+            case "session-expired":
+              defaultSnackBar(Get.overlayContext!, false,
+                  "The sms code has expired. Please resend code to try again.");
+              break;
+            default:
+              defaultSnackBar(Get.overlayContext!, false, errorMessage);
+          }
+        } else {
+          defaultSnackBar(Get.overlayContext!, false, errorMessage);
         }
-      } else {
-        defaultSnackBar(Get.overlayContext!, false, errorMessage);
+        print("VERIFY-OTP: ${e.toString()}");
+        isLoading.value = false;
+        otpController.clear();
+        otpControllerText.value = "";
+      } finally {
+        isLoading.value = false;
       }
+    } else {
+      isLoading.value = false;
+      otpController.clear();
+      otpControllerText.value = "";
+      defaultSnackBar(Get.overlayContext!, false, "Kindly supply OTP");
     }
   }
 
@@ -129,6 +159,9 @@ class SignInController extends GetxController {
     );
 
     try {
+      // Sign out from any existing Google session to force account chooser
+      await GoogleSignIn().signOut();
+
       // Begin interactive signing process
       GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -158,11 +191,11 @@ class SignInController extends GetxController {
         if (userCredential.user != null) {
           List<UserInfo> providers = auth.currentUser!.providerData;
           if (providers.length > 1) {
-            Get.toNamed(Routes.decideRoute);
+            Get.offAndToNamed(Routes.decideRoute);
             defaultSnackBar(Get.overlayContext!, true, "Sign in successful!");
             return;
           } else {
-            Get.toNamed(Routes.linkAuthentication, arguments: {
+            Get.offAndToNamed(Routes.linkAuthentication, arguments: {
               "imagePath": "assets/images/link1.json",
               "heading": "Link Account with Phone Number",
               "subtitle": "we'll text a code to verify your number",
@@ -171,13 +204,17 @@ class SignInController extends GetxController {
             defaultSnackBar(Get.overlayContext!, true,
                 "Proceed with linking phone number!");
           }
+        } else {
+          defaultSnackBar(
+              Get.overlayContext!, false, "Sign in failed. Please try again");
         }
       } else {
         // Perform linking with current user
-        linkCredentials(credential);
+        await linkCredentials(credential);
       }
     } catch (e) {
       print("ERROR-SIGN IN WITH GOOGLE: ${e.toString()}");
+      navigator!.pop(Get.context!);
       defaultSnackBar(Get.overlayContext!, false,
           "Something went wrong, please try again!");
     }
@@ -189,9 +226,7 @@ class SignInController extends GetxController {
       final userCredential = await FirebaseAuth.instance.currentUser
           ?.linkWithCredential(credential);
 
-      // navigator!.pop(Get.context!);
-
-      Get.offAllNamed(Routes.decideRoute);
+      Get.offAndToNamed(Routes.decideRoute);
       defaultSnackBar(Get.overlayContext!, true, "Sign in successful!");
     } on FirebaseAuthException catch (e) {
       navigator!.pop(Get.context!);
