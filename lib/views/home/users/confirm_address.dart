@@ -2,111 +2,104 @@ import 'package:another_stepper/another_stepper.dart';
 import 'package:apex_logistics/components/defaultButton.dart';
 import 'package:apex_logistics/components/defaultStepper.dart';
 import 'package:apex_logistics/components/defaultText.dart';
+import 'package:apex_logistics/components/stepperDataMod.dart';
 import 'package:apex_logistics/utils/constant.dart';
-import 'package:apex_logistics/views/home/users/package_content.dart';
+import 'package:apex_logistics/views/home/users/delivery_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../components/showTripModals.dart';
 
+class ConfirmAddressController extends GetxController {
+  RxList stepperDataTitle = ["Current Location"].obs;
+  RxList stepperDataSubtitle = ["Current Location Address"].obs;
+
+  void updateLocation(String? title, String? subtitle) {
+    stepperDataTitle.add(title);
+    stepperDataSubtitle.add(subtitle);
+  }
+
+  void clearLocations() {
+    stepperDataTitle.clear();
+    stepperDataSubtitle.clear();
+  }
+}
+
 class ConfirmAddress extends StatelessWidget {
   ConfirmAddress({super.key});
 
-  final List<StepperData> stepperData = [
-    StepperData(
-      title: StepperText(
-        "Pick up",
-        textStyle: const TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          fontFamily: "RobotoRegular",
-        ),
-      ),
-      subtitle: StepperText(
-        "6 Tudun Wada Street, Bauchi",
-        textStyle: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.normal,
-          fontFamily: "RobotoRegular",
-        ),
-      ),
-      iconWidget: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: const BoxDecoration(
-          color: Constants.primaryNormal,
-          borderRadius: BorderRadius.all(Radius.circular(30)),
-        ),
-        child: const Icon(
-          Icons.circle,
-          color: Constants.whiteNormal,
-          size: 15,
-        ),
-      ),
-    ),
-    StepperData(
-      title: StepperText(
-        "Delivery Location 1",
-        textStyle: const TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          fontFamily: "RobotoRegular",
-        ),
-      ),
-      subtitle: StepperText(
-        "Wada Street, Bauchi North",
-        textStyle: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.normal,
-          fontFamily: "RobotoRegular",
-        ),
-      ),
-      iconWidget: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: const BoxDecoration(
-          color: Constants.primaryNormal,
-          borderRadius: BorderRadius.all(Radius.circular(30)),
-        ),
-        child: const Icon(
-          Icons.circle,
-          color: Constants.whiteNormal,
-          size: 15,
-        ),
-      ),
-    ),
-    StepperData(
-      title: StepperText(
-        "Delivery Location 2",
-        textStyle: const TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          fontFamily: "RobotoRegular",
-        ),
-      ),
-      subtitle: StepperText(
-        "Wada Street, Bauchi North",
-        textStyle: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.normal,
-          fontFamily: "RobotoRegular",
-        ),
-      ),
-      iconWidget: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: const BoxDecoration(
-          color: Constants.primaryNormal,
-          borderRadius: BorderRadius.all(Radius.circular(30)),
-        ),
-        child: const Icon(
-          Icons.circle,
-          color: Constants.whiteNormal,
-          size: 15,
-        ),
-      ),
-    ),
-  ];
+  final controller = Get.find<ConfirmAddressController>();
+  // final List<StepperData> stepperData = [
+
+  //   StepperData(
+  //     title: const StepperText(
+  //       "Delivery Location 1",
+  //       textStyle: const TextStyle(
+  //         fontSize: 18,
+  //         fontWeight: FontWeight.bold,
+  //         fontFamily: "RobotoRegular",
+  //       ),
+  //     ),
+  //     subtitle: StepperText(
+  //       "Wada Street, Bauchi North",
+  //       textStyle: const TextStyle(
+  //         fontSize: 14,
+  //         fontWeight: FontWeight.normal,
+  //         fontFamily: "RobotoRegular",
+  //       ),
+  //     ),
+  //     iconWidget: Container(
+  //       padding: const EdgeInsets.all(8),
+  //       decoration: const BoxDecoration(
+  //         color: Constants.primaryNormal,
+  //         borderRadius: BorderRadius.all(Radius.circular(30)),
+  //       ),
+  //       child: const Icon(
+  //         Icons.circle,
+  //         color: Constants.whiteNormal,
+  //         size: 15,
+  //       ),
+  //     ),
+  //   ),
+  //   StepperData(
+  //     title: StepperText(
+  //       "Delivery Location 2",
+  //       textStyle: const TextStyle(
+  //         fontSize: 18,
+  //         fontWeight: FontWeight.bold,
+  //         fontFamily: "RobotoRegular",
+  //       ),
+  //     ),
+  //     subtitle: StepperText(
+  //       "Wada Street, Bauchi North",
+  //       textStyle: const TextStyle(
+  //         fontSize: 14,
+  //         fontWeight: FontWeight.normal,
+  //         fontFamily: "RobotoRegular",
+  //       ),
+  //     ),
+  //     iconWidget: Container(
+  //       padding: const EdgeInsets.all(8),
+  //       decoration: const BoxDecoration(
+  //         color: Constants.primaryNormal,
+  //         borderRadius: BorderRadius.all(Radius.circular(30)),
+  //       ),
+  //       child: const Icon(
+  //         Icons.circle,
+  //         color: Constants.whiteNormal,
+  //         size: 15,
+  //       ),
+  //     ),
+  //   ),
+  // ];
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
+    final List<StepperData> stepperData = List.generate(
+        controller.stepperDataTitle.length,
+        (index) => stepperDataMod(index, controller));
+
     return LayoutBuilder(builder: (context, constraints) {
       return SingleChildScrollView(
         child: IntrinsicHeight(
@@ -245,7 +238,7 @@ class ConfirmAddress extends StatelessWidget {
                               onPressed: () {
                                 navigator!.pop(Get.context!);
 
-                                showTripModals(context, PackageContent());
+                                showTripModals(context, DeliveryInfo());
                               },
                               child: const DefaultText(
                                 text: "Add item",

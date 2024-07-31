@@ -34,7 +34,7 @@ class _ChooseRiderState extends State<ChooseRider> {
                     children: [
                       // Stepper Title
                       DefaultText(
-                        text: "Choose a Rider",
+                        text: "Available Rider",
                         fontColor: Constants.whiteNormal,
                         size: 20,
                         weight: FontWeight.bold,
@@ -80,7 +80,7 @@ class _ChooseRiderState extends State<ChooseRider> {
 
                           // Available Rides
                           Column(
-                            children: List.generate(5, (index) {
+                            children: List.generate(1, (index) {
                               return Card(
                                 borderOnForeground: false,
                                 margin: const EdgeInsets.only(bottom: 15),
@@ -140,7 +140,7 @@ class _ChooseRiderState extends State<ChooseRider> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   DefaultText(
-                                    text: "Confirm",
+                                    text: "Get Rider",
                                     fontColor: Constants.whiteNormal,
                                     size: 18,
                                   ),

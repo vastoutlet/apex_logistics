@@ -18,6 +18,8 @@ class DefaultForm extends StatelessWidget {
   final String? label;
   final bool readOnly;
   final Widget? suffixIcon;
+  final Function()? onTap;
+  final Function(String?)? onChanged;
 
   const DefaultForm({
     this.keyboardType = TextInputType.name,
@@ -35,11 +37,15 @@ class DefaultForm extends StatelessWidget {
     this.label,
     this.readOnly = false,
     this.suffixIcon = const SizedBox.shrink(),
+    this.onTap,
+    this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTap: onTap,
+      onChanged: onChanged,
       readOnly: readOnly,
       validator: validator,
       onSaved: onSaved,

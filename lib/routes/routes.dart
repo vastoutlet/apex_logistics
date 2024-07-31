@@ -87,7 +87,7 @@ final getPages = [
   ),
   GetPage(
     name: Routes.payment,
-    page: () => const PaymentMethod(),
+    page: () => PaymentMethod(),
   ),
   GetPage(
     name: Routes.addNewCard,

@@ -12,7 +12,22 @@ class DecideRouteController extends GetxController {
       true.obs; //based on the authenticated user type or use sharedPreference
   RxBool onlineCard = false.obs;
   RxBool isDriverOnline = false.obs;
+  RxBool startRideModal = false.obs;
+
   Rx<double> leftPosition = 0.0.obs;
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    // listener to display incoming request - to be changed appropriately
+    //ever: to be called any time the driverStatus changes
+    ever(isDriverOnline, (value) {
+      if (value) {
+        incomingRequest(Get.context);
+      }
+    });
+  }
 
   incomingRequest(context, {double? size}) async {
     return await Future.delayed(
@@ -44,177 +59,163 @@ class DecideRouteController extends GetxController {
             )));
   }
 
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-    // listener to display incoming request - to be changed appropriately
-    ever(onlineCard, (value) {
-      if (value) {
-        incomingRequest(Get.context);
-      }
-    });
+  Column requestCard() {
+    final List<StepperData> stepperData = [
+      StepperData(
+        title: const StepperText(
+          "Pick up",
+          textStyle: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            fontFamily: "RobotoRegular",
+          ),
+        ),
+        subtitle: const StepperText(
+          "6 Tudun Wada Street, Bauchi",
+          textStyle: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+            fontFamily: "RobotoRegular",
+          ),
+        ),
+        iconWidget: Container(
+          decoration: const BoxDecoration(
+            color: Constants.primaryNormal,
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+          ),
+          child: const Icon(
+            Icons.circle,
+            color: Constants.whiteNormal,
+            size: 18,
+          ),
+        ),
+      ),
+      StepperData(
+        title: const DefaultText(
+          text: "Drop Location",
+          size: 16.0,
+          weight: FontWeight.bold,
+        ),
+        subtitle: const Row(children: [
+          DefaultText(text: "Wada Street, Bauchi North", size: 14.0),
+          SizedBox(width: 20.0),
+          DefaultText(text: "Text", size: 14.0),
+        ]),
+        iconWidget: Container(
+          decoration: const BoxDecoration(
+            color: Constants.primaryNormal,
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+          ),
+          child: const Icon(
+            Icons.location_on_outlined,
+            color: Constants.whiteNormal,
+            size: 18,
+          ),
+        ),
+      ),
+      StepperData(
+        title: const StepperText(
+          "Drop Location 2",
+          textStyle: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            fontFamily: "RobotoRegular",
+          ),
+        ),
+        subtitle: const StepperText(
+          "Wada Street, Bauchi North",
+          textStyle: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+            fontFamily: "RobotoRegular",
+          ),
+        ),
+        iconWidget: Container(
+          decoration: const BoxDecoration(
+            color: Constants.primaryNormal,
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+          ),
+          child: const Icon(
+            Icons.location_on_outlined,
+            color: Constants.whiteNormal,
+            size: 18,
+          ),
+        ),
+      ),
+    ];
+
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            const DefaultText(
+              text: "Apex Logistics",
+              weight: FontWeight.bold,
+              size: 16,
+            ),
+            const SizedBox(width: 10.0),
+            ClipOval(
+              // to be changed to user image (memory)
+              child: Image.asset(
+                "assets/images/rider.jpg",
+                width: 50,
+                height: 50,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ],
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            AnotherStepper(
+              stepperList: stepperData,
+              stepperDirection: Axis.vertical,
+              iconWidth: 30,
+              iconHeight: 30,
+              activeBarColor: Constants.primaryNormal,
+              inActiveBarColor: Colors.grey,
+              inverted: false,
+              verticalGap: 20,
+              activeIndex: 1,
+              barThickness: 1,
+            ),
+          ],
+        ),
+        const SizedBox(height: 20.0),
+        //
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Expanded(
+              child: DefaultButton(
+                onPressed: () {},
+                buttonColor: Constants.whiteNormal,
+                borderColor: Constants.primaryNormal,
+                buttonHeight: 40,
+                child: const DefaultText(
+                    text: "Reject", fontColor: Constants.primaryNormal),
+              ),
+            ),
+            const SizedBox(width: 20.0),
+            Expanded(
+              child: DefaultButton(
+                onPressed: () {
+                  Get.close(1);
+                  onlineCard.value = false;
+                  startRideModal.value = true;
+                },
+                buttonHeight: 40,
+                child:
+                    const DefaultText(text: "Accept", fontColor: Colors.white),
+              ),
+            )
+          ],
+        )
+
+        // stepper
+      ],
+    );
   }
-}
-
-Column requestCard() {
-  final List<StepperData> stepperData = [
-    StepperData(
-      title: StepperText(
-        "Pick up",
-        textStyle: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-          fontFamily: "RobotoRegular",
-        ),
-      ),
-      subtitle: StepperText(
-        "6 Tudun Wada Street, Bauchi",
-        textStyle: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.normal,
-          fontFamily: "RobotoRegular",
-        ),
-      ),
-      iconWidget: Container(
-        decoration: const BoxDecoration(
-          color: Constants.primaryNormal,
-          borderRadius: BorderRadius.all(Radius.circular(30)),
-        ),
-        child: const Icon(
-          Icons.circle,
-          color: Constants.whiteNormal,
-          size: 18,
-        ),
-      ),
-    ),
-    StepperData(
-      title: StepperText(
-        "Drop Location",
-        textStyle: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-          fontFamily: "RobotoRegular",
-        ),
-      ),
-      subtitle: StepperText(
-        "Wada Street, Bauchi North",
-        textStyle: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.normal,
-          fontFamily: "RobotoRegular",
-        ),
-      ),
-      iconWidget: Container(
-        decoration: const BoxDecoration(
-          color: Constants.primaryNormal,
-          borderRadius: BorderRadius.all(Radius.circular(30)),
-        ),
-        child: const Icon(
-          Icons.location_on_outlined,
-          color: Constants.whiteNormal,
-          size: 18,
-        ),
-      ),
-    ),
-    StepperData(
-      title: StepperText(
-        "Drop Location 2",
-        textStyle: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-          fontFamily: "RobotoRegular",
-        ),
-      ),
-      subtitle: StepperText(
-        "Wada Street, Bauchi North",
-        textStyle: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.normal,
-          fontFamily: "RobotoRegular",
-        ),
-      ),
-      iconWidget: Container(
-        decoration: const BoxDecoration(
-          color: Constants.primaryNormal,
-          borderRadius: BorderRadius.all(Radius.circular(30)),
-        ),
-        child: const Icon(
-          Icons.location_on_outlined,
-          color: Constants.whiteNormal,
-          size: 18,
-        ),
-      ),
-    ),
-  ];
-
-  return Column(
-    children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          const DefaultText(
-            text: "Apex Logistics",
-            weight: FontWeight.bold,
-            size: 16,
-          ),
-          const SizedBox(width: 10.0),
-          ClipOval(
-            // to be changed to user image (memory)
-            child: Image.asset(
-              "assets/images/rider.jpg",
-              width: 50,
-              height: 50,
-              fit: BoxFit.cover,
-            ),
-          ),
-        ],
-      ),
-      Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          AnotherStepper(
-            stepperList: stepperData,
-            stepperDirection: Axis.vertical,
-            iconWidth: 30,
-            iconHeight: 30,
-            activeBarColor: Constants.primaryNormal,
-            inActiveBarColor: Colors.grey,
-            inverted: false,
-            verticalGap: 20,
-            activeIndex: 1,
-            barThickness: 1,
-          ),
-        ],
-      ),
-      const SizedBox(height: 20.0),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Expanded(
-            child: DefaultButton(
-              onPressed: () {},
-              buttonColor: Constants.whiteNormal,
-              borderColor: Constants.primaryNormal,
-              buttonHeight: 40,
-              child: const DefaultText(
-                  text: "Reject", fontColor: Constants.primaryNormal),
-            ),
-          ),
-          const SizedBox(width: 20.0),
-          Expanded(
-            child: DefaultButton(
-              onPressed: () {
-                Get.close(1);
-              },
-              buttonHeight: 40,
-              child: const DefaultText(text: "Accept", fontColor: Colors.white),
-            ),
-          )
-        ],
-      )
-
-      // stepper
-    ],
-  );
 }

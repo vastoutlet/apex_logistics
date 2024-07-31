@@ -142,8 +142,10 @@ class _SignInState extends State<SignIn> {
                         child: DefaultButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              sharedPreferences.setBool("driver", true);
-                              await processSignIn("phone");
+                              sharedPreferences.setBool("driver", false);
+                              Get.toNamed(Routes.decideRoute);
+
+                              // await processSignIn("phone");
                             }
                           },
                           child: const DefaultText(
