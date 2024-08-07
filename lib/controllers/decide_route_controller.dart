@@ -1,5 +1,4 @@
 import 'package:another_stepper/another_stepper.dart';
-import 'package:another_stepper/widgets/another_stepper.dart';
 import 'package:apex_logistics/components/defaultButton.dart';
 import 'package:apex_logistics/components/defaultText.dart';
 import 'package:apex_logistics/utils/constant.dart';
@@ -36,7 +35,7 @@ class DecideRouteController extends GetxController {
             context,
             Container(
               width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.all(16.0),
+              // padding: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: const BorderRadius.only(
@@ -59,7 +58,7 @@ class DecideRouteController extends GetxController {
             )));
   }
 
-  Column requestCard() {
+  Widget requestCard() {
     final List<StepperData> stepperData = [
       StepperData(
         title: const StepperText(
@@ -144,78 +143,155 @@ class DecideRouteController extends GetxController {
       ),
     ];
 
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            const DefaultText(
-              text: "Apex Logistics",
-              weight: FontWeight.bold,
-              size: 16,
-            ),
-            const SizedBox(width: 10.0),
-            ClipOval(
-              // to be changed to user image (memory)
-              child: Image.asset(
-                "assets/images/rider.jpg",
-                width: 50,
-                height: 50,
-                fit: BoxFit.cover,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              const DefaultText(
+                text: "Apex Logistics",
+                weight: FontWeight.bold,
+                size: 16,
               ),
-            ),
-          ],
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            AnotherStepper(
-              stepperList: stepperData,
-              stepperDirection: Axis.vertical,
-              iconWidth: 30,
-              iconHeight: 30,
-              activeBarColor: Constants.primaryNormal,
-              inActiveBarColor: Colors.grey,
-              inverted: false,
-              verticalGap: 20,
-              activeIndex: 1,
-              barThickness: 1,
-            ),
-          ],
-        ),
-        const SizedBox(height: 20.0),
-        //
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Expanded(
-              child: DefaultButton(
-                onPressed: () {},
-                buttonColor: Constants.whiteNormal,
-                borderColor: Constants.primaryNormal,
-                buttonHeight: 40,
-                child: const DefaultText(
-                    text: "Reject", fontColor: Constants.primaryNormal),
+              const SizedBox(width: 10.0),
+              ClipOval(
+                // to be changed to user image (memory)
+                child: Image.asset(
+                  "assets/images/rider.jpg",
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-            const SizedBox(width: 20.0),
-            Expanded(
-              child: DefaultButton(
-                onPressed: () {
-                  Get.close(1);
-                  onlineCard.value = false;
-                  startRideModal.value = true;
-                },
-                buttonHeight: 40,
-                child:
-                    const DefaultText(text: "Accept", fontColor: Colors.white),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              AnotherStepper(
+                stepperList: stepperData,
+                stepperDirection: Axis.vertical,
+                iconWidth: 30,
+                iconHeight: 30,
+                activeBarColor: Constants.primaryNormal,
+                inActiveBarColor: Colors.grey,
+                inverted: false,
+                verticalGap: 20,
+                activeIndex: 1,
+                barThickness: 1,
               ),
-            )
-          ],
-        )
+            ],
+          ),
+          const SizedBox(height: 20.0),
+          //decision buttons
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Expanded(
+                  child: DefaultButton(
+                    onPressed: () {},
+                    buttonColor: Constants.whiteNormal,
+                    borderColor: Constants.primaryNormal,
+                    buttonHeight: 40,
+                    child: const DefaultText(
+                        text: "Reject", fontColor: Constants.primaryNormal),
+                  ),
+                ),
+                const SizedBox(width: 20.0),
+                Expanded(
+                  child: DefaultButton(
+                    onPressed: () {
+                      Get.close(1);
+                      onlineCard.value = false;
+                      startRideModal.value = true;
+                    },
+                    buttonHeight: 40,
+                    child: const DefaultText(
+                        text: "Accept", fontColor: Colors.white),
+                  ),
+                )
+              ],
+            ),
+          )
 
-        // stepper
-      ],
+          // stepper
+        ],
+      ),
     );
+  }
+
+  goOnline() {}
+
+  goOffline() {}
+
+  driverStats(Size size) {
+    return Container(
+        width: size.width,
+        height: size.height / 2.8,
+        decoration: const BoxDecoration(
+          color: Constants.whiteLight,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+          child: Row(
+            children: [
+              SizedBox(
+                width: size.width / 2.5,
+                height: 300,
+                child: statContainer(),
+              ),
+              const SizedBox(width: 20.0),
+              Expanded(
+                child: Column(children: [
+                  Expanded(
+                    child: SizedBox(
+                      width: size.width / 2,
+                      // height: 150,
+                      child: statContainer(
+                          backgroundColor: Constants.primaryNormal),
+                    ),
+                  ),
+                  const SizedBox(height: 20.0),
+                  Expanded(
+                    child: SizedBox(
+                      width: size.width / 2,
+                      height: 300,
+                      child: statContainer(
+                          child: const Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          DefaultText(text: "Driver's Score"),
+                        ],
+                      )),
+                    ),
+                  ),
+                ]),
+              )
+            ],
+          ),
+        ));
+  }
+
+  Container statContainer({Color? backgroundColor, Widget? child}) {
+    return Container(
+        decoration: BoxDecoration(
+          color: backgroundColor ?? Colors.white,
+          border: Border.all(
+            color: Constants.primaryNormal,
+            width: 1.0,
+          ),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(20),
+          ),
+        ),
+        child: child);
   }
 }
